@@ -1,0 +1,25 @@
+﻿/* CSS cho giao diện hiện có */
+.existing-interface {
+    background-color: lightgray;
+    padding: 20px;
+    margin: 20px;
+}
+
+/* CSS để ẩn modal ban đầu */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2; /* Đặt z-index lớn hơn giao diện hiện có */
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 20% auto;
+    padding: 20px;
+    width: 60%;
+}

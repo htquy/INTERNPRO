@@ -2,21 +2,21 @@
 using System;
 using System.Collections.Generic;
 
-namespace INTERNPRO.Datas;
+namespace INTERNPRO.Models;
 
-public partial class HocSinh
+public partial class HocSinhs
 {
     public int MaHs { get; set; }
     [Required]
     public string PassWord { get; set; }
     [Required]
-    public string HoTenHs { get; set; } 
+    public string HoTenHs { get; set; }
     [Required]
-    public string QueQuan { get; set; } 
+    public string QueQuan { get; set; }
     [Required]
-    public string TenLop { get; set; } 
+    public string TenLop { get; set; }
     [Required]
-    public string GioiTinh { get; set; } 
+    public string GioiTinh { get; set; }
 
     public int SoDienThoaiHs { get; set; }
 
@@ -28,5 +28,5 @@ public partial class HocSinh
 
     public string? Anh { get; set; }
 
-    public virtual LopHoc TenLopNavigation { get; set; } = null!;
+    //public virtual LopHoc TenLopNavigation { get; set; } = null!;
 }
