@@ -76,22 +76,27 @@ namespace INTERNPRO.Controllers
                 return Json("Xoa thanh cong!");
             }return Json("Doi tuong khong co trong du lieu");
         }
-        [HttpPut]
-        public async Task<IActionResult> PutHS(int mahs, HocSinhModel hs)
+        [HttpPost]
+        [Route("HocSinh/PutHS")]
+        public async Task<IActionResult> PutHS(HocSinhModel hs)
         {
             if (ModelState.IsValid)
             {
-                var hocsinh = _db.HocSinhs.SingleOrDefault(x => x.MaHs == mahs);
+                var hocsinh = _db.HocSinhs.SingleOrDefault(x => x.MaHs == hs.MaHs);
                 if (hocsinh != null)
                 {
-                    string wwwRootPath = _en.WebRootPath;
-                    string fileName = Path.GetFileNameWithoutExtension(hs.ImageFile.FileName);
-                    string extension = Path.GetExtension(hs.ImageFile.FileName);
-                    fileName = fileName + hs.MaHs.ToString() + extension;
-                    string path = Path.Combine(wwwRootPath + "/Image/", fileName);
-                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    if (hs.ImageFile!=null)
                     {
-                        await hs.ImageFile.CopyToAsync(fileStream);
+                        string wwwRootPath = _en.WebRootPath;
+                        string fileName = Path.GetFileNameWithoutExtension(hs.ImageFile.FileName);
+                        string extension = Path.GetExtension(hs.ImageFile.FileName);
+                        fileName = fileName + hs.MaHs.ToString() + extension;
+                        string path = Path.Combine(wwwRootPath + "/Image/", fileName);
+                        using (var fileStream = new FileStream(path, FileMode.Create))
+                        {
+                            await hs.ImageFile.CopyToAsync(fileStream);
+                        }
+                        hocsinh.Anh = fileName;
                     }
                     hocsinh.MaHs = hs.MaHs;
                     hocsinh.PassWord = hs.PassWord;
@@ -103,7 +108,6 @@ namespace INTERNPRO.Controllers
                     hocsinh.HoTenPh= hs.HoTenPh;
                     hocsinh.GioiTinh=hs.GioiTinh;
                     hocsinh.TenLop=hs.TenLop;
-                    hocsinh.Anh = fileName;
                     _db.SaveChanges();
                     return Json("Sua doi thanh cong");
                 }

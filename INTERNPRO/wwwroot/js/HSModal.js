@@ -5,11 +5,11 @@ $(document).ready(function () {
 $('#showPost').on('click', function () {
     $('#postModal').modal('show');
 });
-function DetailM(mahs) {
+function DetailM(ma) {
  
-        $('#'+mahs).modal('show');
+        $('#'+ma).modal('show');
 }
-function Insert() {
+function Insert(count) {
     var formData = new FormData();
     formData.append('maHs', $('#MaHs').val());
     formData.append('passWord', $('#PassWord').val());
@@ -21,8 +21,7 @@ function Insert() {
     formData.append('ngaySinh', $('#NgaySinh').val());
     formData.append('hoTenPh', $('#HoTenPh').val());
     formData.append('soDienThoaiPh', $('#SoDienThoaiPh').val());
-    var ImageFile = $('#ImageFile')[0].files[0];
-
+    var ImageFile = $('.input-image')[count].files[0];
     if (ImageFile) {
         formData.append('ImageFile', ImageFile);
     }
@@ -63,22 +62,29 @@ function Delete(MaHS) {
         }
     });
 }
-function Update(ma) {
+function Update(count) {
     var formData = new FormData();
-    formData.append('maHs', document.getElementById('mahs').value);
-    formData.append('passWord', document.getElementById('password').value);
-    formData.append('hoTenHs', document.getElementById('hotenhs').value);
-    formData.append('queQuan', document.getElementById('quequan').value);
-    formData.append('tenLop', document.getElementById('lop').value);
-    formData.append('gioiTinh', document.getElementById('gioitinh').value);
-    formData.append('soDienThoaiHs', document.getElementById('sdths').value);
-    formData.append('ngaySinh', document.getElementById('ngaysinh').value);
-    formData.append('hoTenPh', document.getElementById('hotenph').value);
-    formData.append('soDienThoaiPh', document.getElementById('sdtph').value);
+    formData.append('maHs', $($('.input-mahs')[count]).val());
+    formData.append('passWord', $($('.input-pass')[count]).val());
+    //var id =  MaHS + ".jpg";
+    formData.append('hoTenHs', $($('.input-hths')[count]).val());
+    var a = $($('.input-hths')[count]).val();
+    formData.append('queQuan', $($('.input-quequan')[count]).val());
+    formData.append('tenLop', $($('.input-lop')[count]).val());
+    formData.append('gioiTinh', $($('.input-gioitinh')[count]).val());
+    formData.append('soDienThoaiHs', $($('.input-sdths')[count]).val());
+    formData.append('ngaySinh', $($('.input-ngaysinh')[count]).val());
+    formData.append('hoTenPh', $($('.input-htph')[count]).val());
+    formData.append('soDienThoaiPh', $($('.input-sdtph')[count]).val());
+    var ImageFile = $('.input-image')[count].files[0];
+    if (ImageFile) {
+        formData.append('ImageFile', ImageFile);
+    } else formData.append('ImageFile', null);
+    console.log(formData);
     $.ajax({
-        url: "/HocSinh/PutHS/" + ma,
+        url: "/HocSinh/PutHS",
         data: formData,
-        type: "PUT",
+        type: 'post',
         processData: false,
         contentType: false, 
         success: function (response) {
@@ -87,7 +93,7 @@ function Update(ma) {
             }, 2000);
         },
         error: function () {
-            alert('Lỗi khi xóa!!!');
+            alert('Lỗi khi update!!!');
         }
         });
 }
