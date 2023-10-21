@@ -1,24 +1,19 @@
-﻿function Login(code, pass) {
-    if (code == "0201866" && pass == "02122003") {
-        window.location = "https:localhost:7275/HocSinh/GetHS";
-    }
-    else {
-        $ajax({
+﻿function Login(id, pass) {
+        var coder = id.toString();
+        $.ajax({
             url: "Account/GetAccount",
-            type: 'get',
-            dataType: "text",
-            data: {
-                code=code,
-                password=pass
+            type: 'post',
+            data:{
+                code:coder,
+                password:pass
             },
             success: function (response) {
-                setTimeout(function () {
-                    location.reload();
-                }, 2000);
+                // Xử lý thành công, ví dụ: chuyển hướng hoặc hiển thị thông báo
+                window.location.href = response.redirectUrl; // Đây bạn có thể lấy địa chỉ chuyển hướng từ response nếu cần.
             },
-            error: function () {
-                alert('Lỗi khi update!!!');
-            }
+            error: function (xhr, textStatus, errorThrown) {
+                // Xử lý lỗi
+                console.log("Lỗi: " + errorThrown);
+            } 
         });
     }
-}

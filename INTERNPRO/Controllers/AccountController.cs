@@ -16,25 +16,39 @@ namespace INTERNPRO.Controllers
         {
             return View();
         }
-        [HttpGet]
+        [HttpPost]
         public IActionResult GetAccount(string code, string password)
         {
-            var hs = _db.HocSinhs.SingleOrDefault(x => x.MaHs == int.Parse(code) && x.PassWord == password);
-            if (hs != null)
+            int codeVal;
+            if (Int32.TryParse(code, out codeVal))
             {
-                var MaHS = int.Parse(code);
-                return Redirect("/Account/GetHS/"+MaHS);
-            }
-            else
-            {
-                var gv = _db.GiaoViens.SingleOrDefault(x => x.MaGv == int.Parse(code) && x.PassWord == password);
-                if (gv != null)
+                var hs = _db.HocSinhs.SingleOrDefault(x => x.MaHs == codeVal && x.PassWord == password);
+
+                if (hs != null)
                 {
-                    var MaGv = int.Parse(code);
-                    return Redirect("/Account/GetGV/" + MaGv);
+                    var MaHS = int.Parse(code);
+                    var redirectUrl = "/HocSinh/GetHS"; 
+                    return Json(new { redirectUrl });
                 }
-                else return Json("Không tìm thấy dữ kiện");
+                else
+                {
+                    var gv = _db.GiaoViens.SingleOrDefault(x => x.MaGv == codeVal && x.PassWord == password);
+                    
+                    if (gv != null && gv.TenGv == "Admin")
+                    {
+                        _db.SaveChanges();
+                        var redirectUrl = "/HocSinh/GetHS";
+                        return Json(new { redirectUrl });
+                    }
+                    else if (gv != null)
+                    {
+                        var MaGv = int.Parse(code);
+                        return Redirect("/Account/GetGV/" + MaGv);
+                    }
+                    else return Json("Không tìm thấy dữ kiện");
+                }
             }
+            else return Json("ko hop le!!");
         }
         [HttpGet]
         [Route("/Account/GetHS/{MaHS}")]

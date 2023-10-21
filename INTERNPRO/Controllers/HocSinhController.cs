@@ -3,6 +3,7 @@ using INTERNPRO.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Hosting;
+using System.IO;
 
 namespace INTERNPRO.Controllers
 {
@@ -22,9 +23,22 @@ namespace INTERNPRO.Controllers
         [HttpGet]
         public IActionResult GetHS()
         {
+            
             List<HocSinh> hocsinhs = new List<HocSinh>();
             hocsinhs = _db.HocSinhs.ToList();
+            int maxID;
+            if (hocsinhs.Count == 0)
+            {
+                maxID = DateTime.Now.Year * 10000;
+            }
+            else if(hocsinhs.Max(s => s.MaHs)< DateTime.Now.Year * 10000)
+            {
+                maxID = DateTime.Now.Year * 10000;
+            }
+            else {
+                maxID = hocsinhs.Max(s => s.MaHs); }
             ViewBag.HS = hocsinhs;
+            ViewBag.mahs= maxID;
             return View();
         }
         [HttpPost]
@@ -71,6 +85,7 @@ namespace INTERNPRO.Controllers
             var hs=_db.HocSinhs.SingleOrDefault(x=>x.MaHs==mahs);
             if (hs != null)
             {
+                System.IO.File.Delete("wwwroot\\Image" + hs.Anh);
                 _db.HocSinhs.Remove(hs);
                 _db.SaveChanges();
                 return Json("Xoa thanh cong!");
@@ -114,6 +129,14 @@ namespace INTERNPRO.Controllers
                 return Json("Sua doi khong hop le");
             }
             return Json("Lỗi!!!");
+        }
+        [HttpGet]
+        public IActionResult Log()
+        {
+            
+                    var redirectUrl = "/";
+                    return Json(new { redirectUrl });
+                
         }
     }
 }
