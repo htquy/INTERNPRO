@@ -173,7 +173,6 @@ public partial class InternProjectContext : DbContext
                 .HasColumnName("MaCT");
             entity.Property(e => e.MaGv).HasColumnName("MaGV");
             entity.Property(e => e.MaMh).HasColumnName("MaMH");
-            entity.Property(e => e.Ngay).HasColumnType("date");
             entity.Property(e => e.TenLop)
                 .HasMaxLength(10)
                 .IsFixedLength();

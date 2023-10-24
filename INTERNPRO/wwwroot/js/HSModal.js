@@ -6,8 +6,39 @@ $('#showPost').on('click', function () {
     $('#postModal').modal('show');
 });
 function DetailM(ma) {
- 
-        $('#'+ma).modal('show');
+    $.ajax({
+        url: "/HocSinh/GetHS/" + ma,
+        data: ma,
+        type: 'get',
+        success: function (response) {
+            if (response == null || response == undefined || response.length == 0) {
+                alert('Hỏng');
+            } else {
+                var object = '';
+                $('#detail #MaHs').val(response.maHs);
+                $('#detail #PassWord').val(response.passWord);
+                $('#detail #HoTenHs').val(response.hoTenHs);
+                $('#detail #QueQuan').val(response.queQuan);
+                $('#detail #TenLop').val(response.tenLop);
+                $('#detail #GioiTinh').val(response.gioiTinh);
+                $('#detail #SoDienThoaiHs').val(response.soDienThoaiHs);
+                $('#detail #NgaySinh').val(response.ngaySinh);
+                $('#detail #SoDienThoaiPh').val(response.soDienThoaiPh);
+                $('#detail #HoTenPh').val(response.hoTenPh);
+                var imagePath = '../Image/' + response.anh;
+                object += '<label asp-for="ImageFile" class="col-sm-2 col-form-label"></label>' +
+                    '<img src="' + imagePath + '" asp-append-version="true" width="150px">';
+
+
+                $('#anh_HS').html(object);
+                $('#detail').modal('show');
+                
+            }
+        },
+        error: function () {
+            alert('Lỗi!!!');
+        }
+        })
 }
 function Insert(count) {
     var formData = new FormData();
@@ -64,22 +95,20 @@ function Delete(MaHS) {
 }
 function Update(count) {
     var formData = new FormData();
-    formData.append('maHs', $($('.input-mahs')[count]).val());
-    formData.append('passWord', $($('.input-pass')[count]).val());
-    //var id =  MaHS + ".jpg";
-    formData.append('hoTenHs', $($('.input-hths')[count]).val());
-    var a = $($('.input-hths')[count]).val();
-    formData.append('queQuan', $($('.input-quequan')[count]).val());
-    formData.append('tenLop', $($('.input-lop')[count]).val());
-    formData.append('gioiTinh', $($('.input-gioitinh')[count]).val());
-    formData.append('soDienThoaiHs', $($('.input-sdths')[count]).val());
-    formData.append('ngaySinh', $($('.input-ngaysinh')[count]).val());
-    formData.append('hoTenPh', $($('.input-htph')[count]).val());
-    formData.append('soDienThoaiPh', $($('.input-sdtph')[count]).val());
-    var ImageFile = $('.input-image')[count].files[0];
+    formData.append('maHs', $('#detail #MaHs').val());
+    formData.append('passWord', $('#detail #PassWord').val());
+    formData.append('hoTenHs', $('#detail #HoTenHs').val());
+    formData.append('queQuan', $('#detail #QueQuan').val());
+    formData.append('tenLop', $('#detail #TenLop').val());
+    formData.append('gioiTinh', $('#detail #GioiTinh').val());
+    formData.append('soDienThoaiHs', $('#detail #SoDienThoaiHs').val());
+    formData.append('ngaySinh', $('#detail #NgaySinh').val());
+    formData.append('hoTenPh', $('#detail #HoTenPh').val());
+    formData.append('soDienThoaiPh', $('#detail #SoDienThoaiPh').val());
+    var ImageFile = $('#detail #ImageFile')[0].files[0];
     if (ImageFile) {
         formData.append('ImageFile', ImageFile);
-    } else formData.append('ImageFile', null);
+    }
     console.log(formData);
     $.ajax({
         url: "/HocSinh/PutHS",
@@ -102,8 +131,7 @@ function Logout() {
         url: "/HocSinh/Log",
         type: 'get',
         success: function (response) {
-            // Xử lý thành công, ví dụ: chuyển hướng hoặc hiển thị thông báo
-            window.location.href = response.redirectUrl; // Đây bạn có thể lấy địa chỉ chuyển hướng từ response nếu cần.
+            window.location.href = response.redirectUrl; 
         },
         error: function (xhr, textStatus, errorThrown) {
             // Xử lý lỗi

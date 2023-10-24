@@ -1,16 +1,16 @@
 ﻿@using Newtonsoft.Json;
-
-@model INTERNPRO.Models.HocSinhModel
-@section Section1 {
-    <button onclick="Logout()">Đăng xuất</button>
+@{
+    Layout = "../Shared/_SidebarStudent.cshtml";
 }
-<p>
-    <button id="showPost" class="btn btn-primary">Create New</button> 
-</p>
+@model INTERNPRO.Models.HocSinhModel
 @{
     var dshs = ViewBag.HS as IEnumerable<INTERNPRO.Datas.HocSinh>;
     var Idhs = ViewBag.mahs + 1;
 }
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <p>
+        <button id="showPost" class="btn btn-primary">Create New</button>
+    </p>
 <table class="table">
     <thead>
         <tr>
@@ -62,105 +62,95 @@
             </td>
         </tr>
 
-            <!-- Modal -->
-            <div class="modal fade" id="@item.MaHs" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group row">
-                                <label asp-for="MaHs" class="col-sm-2 col-form-label">Mã HS:</label>
-                                <div class="col-sm-10">
-                                    <input class="input-mahs" readonly value="@item.MaHs" class="form-control" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <lable asp-for="PassWord"  class="col-sm-2 col-form-label">Mật khẩu: </lable>
-                                <div class="col-sm-10">
-                                <input class="input-pass" value="@item.PassWord" class="form-control" />
-                                </div>
-                                <span asp-validation-for="MaHs" class="text-danger"></span>
-                            </div>
-                            <div class="form-group row">
-                                <lable asp-for="HoTenHs" class="col-sm-2 col-form-label">Họ tên: </lable>
-                                <div class="col-sm-10">
-                                    <input class="input-hotenhs" value="@item.HoTenHs" class="input-hths" class="form-control" />
-                                </div>
-                                <span asp-validation-for="HoTenHs" class="text-danger"></span>
-                            </div>
-                            <div class="form-group row">
-                                <lable asp-for="QueQuan" class="col-sm-2 col-form-label">Quê quán: </lable>
-                                <div class="col-sm-10">
-                                    <input class="input-wuequan" value="@item.QueQuan" class="form-control" />
-                                </div>
-                                <span asp-validation-for="QueQuan" class="text-danger"></span>
-                            </div>
-                            <div class="form-group row">
-                                <lable asp-for="TenLop" class="col-sm-2 col-form-label">Lớp: </lable>
-                                <div class="col-sm-10">
-                                    <input value="@item.TenLop" class="input-lop" class="form-control" />
-                                </div>
-                                <span asp-validation-for="TenLop" class="text-danger"></span>
-                            </div>
-                            <div class="form-group row">
-                                <lable asp-for="GioiTinh" class="col-sm-2 col-form-label">Giới tính: </lable>
-                                <div class="col-sm-10">
-                                    <input class="input-gioitinh" value="@item.GioiTinh" class="form-control" />
-                                </div>
-                                <span asp-validation-for="GioiTinh" class="text-danger"></span>
-                            </div>
-                            <div class="form-group row">
-                                <lable asp-for="SoDienThoaiHs"  class="col-sm-2 col-form-label">SDT: </lable>
-                                <div class="col-sm-10">
-                                    <input class="input-sdths"  value="@item.SoDienThoaiHs" class="form-control" />
-                                </div>
-                                <span asp-validation-for="SoDienThoaiHs" class="text-danger"></span>
-                            </div>
-                            <div class="form-group row">
-                                <lable asp-for="NgaySinh" class="col-sm-2 col-form-label">Ngày sinh:</lable>
+        }
+        <div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label asp-for="MaHs" class="col-sm-2 col-form-label">Mã HS:</label>
                             <div class="col-sm-10">
-                            <input value="@item.NgaySinh" class="input-ngaysinh" class="form-control" />
+                                    <input asp-for="MaHs" class="form-control" />
                             </div>
-                            <span asp-validation-for="NgaySinh" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row">
+                            <lable asp-for="PassWord"  class="col-sm-2 col-form-label">Mật khẩu: </lable>
+                            <div class="col-sm-10">
+                                    <input asp-for="PassWord" class="form-control" />
                             </div>
-                                <div class="form-group row">
-                                    <lable asp-for="HoTenPh" class="col-sm-2 col-form-label">Họ tên bố/mẹ: </lable>
-                                <div class="col-sm-10">
-                                    <input class="input-htph" value="@item.HoTenPh" class="form-control" />
-                                    </div>
-                                    <span asp-validation-for="HoTenPh" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row">
+                            <lable asp-for="HoTenHs" class="col-sm-2 col-form-label">Họ tên: </lable>
+                            <div class="col-sm-10">
+                                    <input asp-for="HoTenHs" class="form-control" />
                             </div>
-                                <div class="form-group row">
-                                    <lable asp-for="SoDienThoaiPh" class="col-sm-2 col-form-label">SDT bố/mẹ: </lable>
-                                <div class="col-sm-10">
-                                    <input class="input-sdtph" value="@item.SoDienThoaiPh" class="form-control" />
-                                    </div>
-                                    <span asp-validation-for="SoDienThoaiPh" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row">
+                            <lable asp-for="QueQuan" class="col-sm-2 col-form-label">Quê quán: </lable>
+                            <div class="col-sm-10">
+                                    <input asp-for="QueQuan" class="form-control" />
                             </div>
-                                <div class="form-group row">
-                                    <lable asp-for="ImageFile" class="col-sm-2 col-form-label"></lable>
-                                    <img src="@("~/Image/"+@item.Anh)" asp-append-version="true" width="150px">
+                        </div>
+                        <div class="form-group row">
+                            <lable asp-for="TenLop" class="col-sm-2 col-form-label">Lớp: </lable>
+                            <div class="col-sm-10">
+                                    <input asp-for="TenLop" class="form-control" />
                             </div>
-                            <div class="form-group">
-                                <label asp-for="ImageFile" class="control-label"></label>
-                                <input asp-for="ImageFile" accept="image/*" class="input-image"/>
-                                <span asp-validation-for="ImageFile" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row">
+                            <lable asp-for="GioiTinh" class="col-sm-2 col-form-label">Giới tính: </lable>
+                            <div class="col-sm-10">
+                                    <input asp-for="GioiTinh" class="form-control" />
                             </div>
+                        </div>
+                        <div class="form-group row">
+                            <lable asp-for="SoDienThoaiHs"  class="col-sm-2 col-form-label">SDT: </lable>
+                            <div class="col-sm-10">
+                                    <input asp-for="SoDienThoaiHs" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <lable asp-for="NgaySinh" class="col-sm-2 col-form-label">Ngày sinh:</lable>
+                        <div class="col-sm-10">
+                        <input asp-for="NgaySinh" class="form-control" />
+                        </div>
+                        </div>
+                            <div class="form-group row">
+                                <lable asp-for="HoTenPh" class="col-sm-2 col-form-label">Họ tên bố/mẹ: </lable>
+                            <div class="col-sm-10">
+                                    <input asp-for="HoTenPh" class="form-control" />
+                                </div>
+                        </div>
+                            <div class="form-group row">
+                                <lable asp-for="SoDienThoaiPh" class="col-sm-2 col-form-label">SDT bố/mẹ: </lable>
+                            <div class="col-sm-10">
+                                    <input asp-for="SoDienThoaiPh" class="form-control" />
+                                </div>
+                        </div>
+                            <div class="form-group row" id="anh_HS">
+                                @*<lable asp-for="ImageFile" class="col-sm-2 col-form-label"></lable>
+                                <img src="@("~/Image/")" asp-append-version="true" width="150px">*@
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ImageFile" class="control-label"></label>
+                            <input asp-for="ImageFile" accept="image/*" class="input-image"/>
+                            <span asp-validation-for="ImageFile" class="text-danger"></span>
+                        </div>
                             
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" onclick="Update(@count)">Save changes</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" onclick="Update(@count)">Save changes</button>
                     </div>
                 </div>
             </div>
-        }
+        </div> 
     <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -233,9 +223,9 @@
     </div>
   </div>
 </div>
-     
     </tbody>
 </table>
+</main>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>

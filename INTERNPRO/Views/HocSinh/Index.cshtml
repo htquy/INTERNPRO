@@ -1,4 +1,11 @@
-﻿
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿<table>
+    @for (int row = 0; row < 5; row++)
+    {
+        <tr>
+            @for (int col = 0; col < 5; col++)
+            {
+                <td>@(row * 5 + col + 1)</td>
+            }
+        </tr>
+    }
+</table>

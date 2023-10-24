@@ -1,5 +1,4 @@
-﻿using Microsoft.Build.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace INTERNPRO.Datas;
@@ -7,22 +6,22 @@ namespace INTERNPRO.Datas;
 public partial class HocSinh
 {
     public int MaHs { get; set; }
-    [Required]
-    public string PassWord { get; set; }
-    [Required]
-    public string HoTenHs { get; set; }
-    [Required]
-    public string QueQuan { get; set; }
-    [Required]
-    public string TenLop { get; set; }
-    [Required]
-    public string GioiTinh { get; set; }
+
+    public string PassWord { get; set; } = null!;
+
+    public string HoTenHs { get; set; } = null!;
+
+    public string QueQuan { get; set; } = null!;
+
+    public string TenLop { get; set; } = null!;
+
+    public string GioiTinh { get; set; } = null!;
 
     public int SoDienThoaiHs { get; set; }
 
     public DateTime NgaySinh { get; set; }
-    [Required]
-    public string HoTenPh { get; set; }
+
+    public string HoTenPh { get; set; } = null!;
 
     public int? SoDienThoaiPh { get; set; }
 

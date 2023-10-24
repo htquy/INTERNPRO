@@ -20,24 +20,24 @@ namespace INTERNPRO.Controllers
         public IActionResult GetAccount(string code, string password)
         {
             int codeVal;
-            if (Int32.TryParse(code, out codeVal))
+            if (int.TryParse(code, out codeVal))
             {
                 var hs = _db.HocSinhs.SingleOrDefault(x => x.MaHs == codeVal && x.PassWord == password);
 
                 if (hs != null)
                 {
                     var MaHS = int.Parse(code);
-                    var redirectUrl = "/HocSinh/GetHS"; 
+                    var redirectUrl = "/HocSinh/GetHS";
                     return Json(new { redirectUrl });
                 }
                 else
                 {
                     var gv = _db.GiaoViens.SingleOrDefault(x => x.MaGv == codeVal && x.PassWord == password);
-                    
+
                     if (gv != null && gv.TenGv == "Admin")
                     {
                         _db.SaveChanges();
-                        var redirectUrl = "/HocSinh/GetHS";
+                        var redirectUrl = "/Account/Admin";
                         return Json(new { redirectUrl });
                     }
                     else if (gv != null)
@@ -61,6 +61,11 @@ namespace INTERNPRO.Controllers
         public IActionResult GetGV(int MaGv)
         {
             return View(MaGv);
+        }
+        [HttpGet]
+        public IActionResult Admin()
+        {
+            return View();
         }
     }
 }
