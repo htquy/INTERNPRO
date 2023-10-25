@@ -1,6 +1,10 @@
 ﻿using INTERNPRO.Datas;
 using INTERNPRO.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using System.Collections.Generic;
 
 namespace INTERNPRO.Controllers.Admin
 {
@@ -35,7 +39,7 @@ namespace INTERNPRO.Controllers.Admin
         }
         [HttpGet]
         [Route("/PCCT/GetCalendars/{TenLop}/{Ca}")]
-        public IActionResult GetGVMH() {
+        public async Task<IActionResult> GetGVMH() {
             string TL= HttpContext.GetRouteValue("TenLop") as string;
             string Ca= HttpContext.GetRouteValue("Ca") as string;
             int ca=Int32.Parse(Ca);
@@ -43,12 +47,35 @@ namespace INTERNPRO.Controllers.Admin
             var WasMH = _db.PhanCongCts.Where(x => x.TenLop == TL).ToList();
             var mhs = _db.MonHocs.ToList();
             var gvmh = _db.GiaoViens.ToList();
+            if (_db.PhanCongCts.Where(c => c.MaMh == 1&&c.TenLop==TL).Count() >= 4) { gvmh.RemoveAll(x => x.ChuyenMon == "Toán"); }
+            if (_db.PhanCongCts.Where(c => c.MaMh == 2 && c.TenLop == TL).Count() >= 4) { gvmh.RemoveAll(x => x.ChuyenMon == "Ngữ Văn"); }
+            if (_db.PhanCongCts.Where(c => c.MaMh == 3 && c.TenLop == TL).Count() >= 4) { gvmh.RemoveAll(x => x.ChuyenMon == "Tiếng Anh"); }
+            if (_db.PhanCongCts.Where(c => c.MaMh == 4 && c.TenLop == TL).Count() >= 3) { gvmh.RemoveAll(x => x.ChuyenMon == "Vật Lý"); }
+            if (_db.PhanCongCts.Where(c => c.MaMh == 5 && c.TenLop == TL).Count() >= 3) { gvmh.RemoveAll(x => x.ChuyenMon == "Hóa Học"); }
+            if (_db.PhanCongCts.Where(c => c.MaMh == 6 && c.TenLop == TL).Count() >= 3) { gvmh.RemoveAll(x => x.ChuyenMon == "Sinh Học"); }
+            if (_db.PhanCongCts.Where(c => c.MaMh == 7 && c.TenLop == TL).Count() >= 1) { gvmh.RemoveAll(x => x.ChuyenMon == "Địa Lý"); }
+            if (_db.PhanCongCts.Where(c => c.MaMh == 8 && c.TenLop == TL).Count() >= 3) { gvmh.RemoveAll(x => x.ChuyenMon == "Lịch sử"); }
+            if (_db.PhanCongCts.Where(c => c.MaMh == 9 && c.TenLop == TL).Count() >= 2) { gvmh.RemoveAll(x => x.ChuyenMon == "GDCD"); }
+            if (_db.PhanCongCts.Where(c => c.MaMh == 10 && c.TenLop == TL).Count() >= 2) { gvmh.RemoveAll(x => x.ChuyenMon == "Tin học"); }
+            if (_db.PhanCongCts.Where(c => c.MaMh == 11 && c.TenLop == TL).Count() >= 1) { gvmh.RemoveAll(x => x.ChuyenMon == "Công nghệ"); }
+            var dv = gvmh;
+            JsonSerializerOptions options = new()
+            {
+                ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                WriteIndented = true
+            };
             if (listca.Count == 0)
             {
-                if (WasMH.Count == 0)
+                if (WasMH.Count() == 0)
                 {
-                    var GVMH = _db.GiaoViens.ToList();
-                    return Json(GVMH);
+                    string json = await Task.Run(() =>
+                    {
+                        return JsonConvert.SerializeObject(gvmh, Formatting.Indented, new JsonSerializerSettings
+                        {
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        });
+                    });
+                    return Json(json);
                 }
                 else
                 {
@@ -75,7 +102,14 @@ namespace INTERNPRO.Controllers.Admin
                         }).ToList();
 
                     var Listgvmh = gv1.Concat(gv2).ToList();
-                    return Json(Listgvmh);
+                    string json = await Task.Run(() =>
+                    {
+                        return JsonConvert.SerializeObject(gvmh, Formatting.Indented, new JsonSerializerSettings
+                        {
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        });
+                    });
+                    return Json(json);
                 }
             }
             else
@@ -84,7 +118,14 @@ namespace INTERNPRO.Controllers.Admin
                 if (WasMH.Count == 0)
                 {
                     var GVMH = WasGV.Where(item => !listca.Any(x => x.MaGv == item.MaGv)).ToList();
-                    return Json(GVMH);
+                    string json = await Task.Run(() =>
+                    {
+                        return JsonConvert.SerializeObject(gvmh, Formatting.Indented, new JsonSerializerSettings
+                        {
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        });
+                    });
+                    return Json(json);
                 }
                 else
                 {
@@ -103,7 +144,14 @@ namespace INTERNPRO.Controllers.Admin
                                         chuyenMon = item.ChuyenMon,
                                         maGv = item.MaGv,
                                     }).ToList();
-                    return Json(Listgvmh);
+                    string json = await Task.Run(() =>
+                    {
+                        return JsonConvert.SerializeObject(gvmh, Formatting.Indented, new JsonSerializerSettings
+                        {
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        });
+                    });
+                    return Json(json);
                 }
             }
         }
@@ -128,8 +176,8 @@ namespace INTERNPRO.Controllers.Admin
                 };
                 _db.PhanCongCts.Add(pcct);
                 _db.SaveChanges();
-                return Json(pcct);
-            }return View();
+                return Json("post thành công!");
+            }return Json("Dữ liệu không tồn tại!");
         }
         [HttpDelete]
         [Route("/PCCT/GetCalendars/{ma}")]
@@ -138,7 +186,7 @@ namespace INTERNPRO.Controllers.Admin
             var pcct=_db.PhanCongCts.SingleOrDefault(x=> x.MaCt==ma);
             _db.PhanCongCts.Remove(pcct);
             _db.SaveChanges();
-            return Json(pcct);
+            return Json("delete thành công!");
         }
     }
 }

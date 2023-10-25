@@ -11,8 +11,9 @@ function PhanCong(lop, ca) {
             } else {
                 var object = '';
                 var p = '';
+                response = JSON.parse(response);
                 $.each(response, function (index, item) {
-                    object += '<option value="' + item.maGv + '-' + item.chuyenMon + '"></option>'
+                    object += '<option value="' + item.MaGv + '-' + item.ChuyenMon + '"></option>'
                 });
                 $('#listGVMH').modal('show');
                 p += '<button type="button" class="btn btn-primary" onclick="PostPCCT(\'' + lop.toString() + '\', \'' + ca.toString() + '\')">Select</button>';
@@ -37,25 +38,39 @@ function PostPCCT(lop, ca) {
         success: function (response) {
             if (response == null || response == undefined || response.length == 0) {
                 alert('Hỏng');
-            } else { }
+            } else {
+                alert(response);
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+            }
         },
-        error: function () {
-            alert('Lỗi ít thôi');
+        error: function (jqXHR, textStatus, errorThrown) {
+            // Hiển thị lỗi từ phản hồi
+            console.log('Lỗi: ' + jqXHR.status + ' - ' + jqXHR.statusText);
+            console.log('Lỗi chi tiết: ' + jqXHR.responseText);
         }
     });
 }
 function DeletePC(ma) {
     $.ajax({
-        url: "/PCCT/GetCalendars/" +ma,
+        url: "/PCCT/GetCalendars/" + ma,
         type: 'delete',
         data: ma,
         success: function (response) {
             if (response == null || response == undefined || response.length == 0) {
                 alert('Hỏng');
-            } else { }
+            } else {
+                alert(response);
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+            }
         },
-        error: function () {
-            alert('Lỗi ít thôi');
+        error: function (jqXHR, textStatus, errorThrown) {
+            // Hiển thị lỗi từ phản hồi
+            console.log('Lỗi: ' + jqXHR.status + ' - ' + jqXHR.statusText);
+            console.log('Lỗi chi tiết: ' + jqXHR.responseText);
         }
-        })
+    });
 }
