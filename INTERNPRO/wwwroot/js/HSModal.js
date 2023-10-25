@@ -42,17 +42,17 @@ function DetailM(ma) {
 }
 function Insert(count) {
     var formData = new FormData();
-    formData.append('maHs', $('#MaHs').val());
-    formData.append('passWord', $('#PassWord').val());
-    formData.append('hoTenHs', $('#HoTenHs').val());
-    formData.append('queQuan', $('#QueQuan').val());
-    formData.append('tenLop', $('#TenLop').val());
-    formData.append('gioiTinh', $('#GioiTinh').val());
-    formData.append('soDienThoaiHs', $('#SoDienThoaiHs').val());
-    formData.append('ngaySinh', $('#NgaySinh').val());
-    formData.append('hoTenPh', $('#HoTenPh').val());
-    formData.append('soDienThoaiPh', $('#SoDienThoaiPh').val());
-    var ImageFile = $('.input-image')[count].files[0];
+    formData.append('maHs', $('#postModal #MaHs').val());
+    formData.append('passWord', $('#postModal #PassWord').val());
+    formData.append('hoTenHs', $('#postModal #HoTenHs').val());
+    formData.append('queQuan', $('#postModal #QueQuan').val());
+    formData.append('tenLop', $('#postModal #TenLop').val());
+    formData.append('gioiTinh', $('#postModal #GioiTinh').val());
+    formData.append('soDienThoaiHs', $('#postModal #SoDienThoaiHs').val());
+    formData.append('ngaySinh', $('#postModal #NgaySinh').val());
+    formData.append('hoTenPh', $('#postModal #HoTenPh').val());
+    formData.append('soDienThoaiPh', $('#postModal #SoDienThoaiPh').val());
+    var ImageFile = $('#postModal #ImageFile')[0].files[0];
     if (ImageFile) {
         formData.append('ImageFile', ImageFile);
     }
