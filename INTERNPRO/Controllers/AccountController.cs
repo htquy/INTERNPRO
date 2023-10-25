@@ -43,7 +43,7 @@ namespace INTERNPRO.Controllers
                     else if (gv != null)
                     {
                         var MaGv = int.Parse(code);
-                        return Redirect("/Account/GetGV/" + MaGv);
+                        return Redirect("/GiaoVien/GetGV/" + MaGv);
                     }
                     else return Json("Không tìm thấy dữ kiện");
                 }

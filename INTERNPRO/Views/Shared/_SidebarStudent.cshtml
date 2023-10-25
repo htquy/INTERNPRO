@@ -18,7 +18,7 @@
 <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 200px;">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
         <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-        <span class="fs-4">Sidebar</span>
+        <span class="fs-4">MENU</span>
     </a>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
@@ -35,9 +35,9 @@
             </a>
         </li>
         <li class="nav-item custom-nav-item">
-                    <a href="#" class="nav-link text-white custom-nav-link">
-                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
-                        Giao vien
+                    <a href="/GiaoVien/GetGV" class="nav-link text-white custom-nav-link">
+                <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+                    Giao vien
                     </a>
         </li>
         <li class="nav-item custom-nav-item">
@@ -52,6 +52,36 @@
             </a>
         </li>
     </ul>
+            <style>
+                .custom-nav-link:hover {
+                    background-color: lightblue;
+                    color: black;
+                }
+            </style>
+            @* <script>
+                var menuItems = document.querySelectorAll('.custom-nav-link');
+
+                menuItems.forEach(function (item) {
+                    item.addEventListener('mouseover', function () {
+                        // Thực hiện hành động khi trỏ chuột vào mục
+                        // Ví dụ: Hiển thị mô tả
+                        var tooltip = document.createElement('div');
+                        tooltip.className = 'tooltip';
+                        tooltip.innerHTML = 'Mô tả mục này';
+                        item.appendChild(tooltip);
+                    });
+
+                    item.addEventListener('mouseout', function () {
+                        // Thực hiện hành động khi trỏ chuột ra khỏi mục
+                        // Ví dụ: Xóa tooltip
+                        var tooltip = item.querySelector('.tooltip');
+                        if (tooltip) {
+                            item.removeChild(tooltip);
+                        }
+                    });
+                }); *@
+            </script>
+
     <hr>
     <div class="dropdown">
         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">

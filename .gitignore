@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/INTERNPRO/appsettings.json
+/INTERNPRO/Datas/InternProjectContext.cs
+/INTERNPRO/Controllers/AccountController.cs
+/INTERNPRO/Views/Shared/_SidebarStudent.cshtml

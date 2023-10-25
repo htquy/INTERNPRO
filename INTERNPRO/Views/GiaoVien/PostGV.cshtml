@@ -1,0 +1,108 @@
+﻿@model INTERNPRO.Models.GiaoVienModel
+
+<h4>GiaoVienModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="PostGV">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MaGv" class="control-label"></label>
+                <input asp-for="MaGv" class="form-control" />
+                <span asp-validation-for="MaGv" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PassWord" class="control-label"></label>
+                <input asp-for="PassWord" class="form-control" />
+                <span asp-validation-for="PassWord" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HoTenGv" class="control-label"></label>
+                <input asp-for="HoTenGv" class="form-control" />
+                <span asp-validation-for="HoTenGv" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QueQuan" class="control-label"></label>
+                <input asp-for="QueQuan" class="form-control" />
+                <span asp-validation-for="QueQuan" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ChuyenMon" class="control-label"></label>
+                <input asp-for="ChuyenMon" class="form-control" />
+                <span asp-validation-for="ChuyenMon" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GioiTinh" class="control-label"></label>
+                <input asp-for="GioiTinh" class="form-control" />
+                <span asp-validation-for="GioiTinh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NgayBatDau" class="control-label"></label>
+                <input asp-for="NgayBatDau" class="form-control" />
+                <span asp-validation-for="NgayBatDau" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NgaySinh" class="control-label"></label>
+                <input asp-for="NgaySinh" class="form-control" />
+                <span asp-validation-for="NgaySinh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MoTaKhac" class="control-label"></label>
+                <input asp-for="MoTaKhac" class="form-control" />
+                <span asp-validation-for="MoTaKhac" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaLuong" class="control-label"></label>
+                <input asp-for="MaLuong" class="form-control" />
+                <span asp-validation-for="MaLuong" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ChuNhiemLop" class="control-label"></label>
+                <input asp-for="ChuNhiemLop" class="form-control" />
+                <span asp-validation-for="ChuNhiemLop" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Anh" class="control-label"></label>
+                <input asp-for="Anh" class="form-control" />
+                <span asp-validation-for="Anh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

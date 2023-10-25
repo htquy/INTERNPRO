@@ -1,13 +1,13 @@
 ﻿
 $(document).ready(function () {
-   // Insert();
+    // Insert();
 });
 $('#showPost').on('click', function () {
     $('#postModal').modal('show');
 });
 function DetailM(ma) {
     $.ajax({
-        url: "/HocSinh/GetHS/" + ma,
+        url: "/GiaoVien/GetGV/" + ma,
         data: ma,
         type: 'get',
         success: function (response) {
@@ -15,54 +15,56 @@ function DetailM(ma) {
                 alert('Hỏng');
             } else {
                 var object = '';
-                $('#detail #MaHs').val(response.maHs);
+                $('#detail #MaGv').val(response.maGv);
                 $('#detail #PassWord').val(response.passWord);
-                $('#detail #HoTenHs').val(response.hoTenHs);
+                $('#detail #HoTenGv').val(response.tenGv);
                 $('#detail #QueQuan').val(response.queQuan);
-                $('#detail #TenLop').val(response.tenLop);
+                $('#detail #ChuyenMon').val(response.chuyenMon);
                 $('#detail #GioiTinh').val(response.gioiTinh);
-                $('#detail #SoDienThoaiHs').val(response.soDienThoaiHs);
+                $('#detail #MaLuong').val(response.maLuong);
                 $('#detail #NgaySinh').val(response.ngaySinh);
-                $('#detail #SoDienThoaiPh').val(response.soDienThoaiPh);
-                $('#detail #HoTenPh').val(response.hoTenPh);
+                $('#detail #NgayBatDau').val(response.ngayBatDau);
+                $('#detail #MoTaKhac').val(response.moTaKhac);
+                $('#detail #ChuNhiemLop').val(response.chuNhiemLop);
                 var imagePath = '../Image/' + response.anh;
                 object += '<label asp-for="ImageFile" class="col-sm-2 col-form-label"></label>' +
                     '<img src="' + imagePath + '" asp-append-version="true" width="150px">';
 
-
-                $('#anh_HS').html(object);
-                $('#detail').modal('show');
-                
+                $('#anh_GV').html(object);
+                $('#detail').modal('show'); 
             }
         },
         error: function () {
             alert('Lỗi!!!');
         }
-        })
+    })
 }
+
+
 function Insert(count) {
     var formData = new FormData();
-    formData.append('maHs', $('#postModal #MaHs').val());
+    formData.append('maGv', $('#postModal #MaGv').val());
     formData.append('passWord', $('#postModal #PassWord').val());
-    formData.append('hoTenHs', $('#postModal #HoTenHs').val());
+    formData.append('hoTenGv', $('#postModal #HoTenGv').val());
     formData.append('queQuan', $('#postModal #QueQuan').val());
-    formData.append('tenLop', $('#postModal #TenLop').val());
+    formData.append('chuyenMon', $('#postModal #ChuyenMon').val());
     formData.append('gioiTinh', $('#postModal #GioiTinh').val());
-    formData.append('soDienThoaiHs', $('#postModal #SoDienThoaiHs').val());
+    formData.append('maLuong', $('#postModal #MaLuong').val());
     formData.append('ngaySinh', $('#postModal #NgaySinh').val());
-    formData.append('hoTenPh', $('#postModal #HoTenPh').val());
-    formData.append('soDienThoaiPh', $('#postModal #SoDienThoaiPh').val());
+    formData.append('ngayBatDau', $('#postModal #NgayBatDau').val());
+    formData.append('moTaKhac', $('#postModal #MoTaKhac').val());
+    formData.append('chuNhiemLop', $('#postModal #ChuNhiemLop').val());
     var ImageFile = $('#postModal #ImageFile')[0].files[0];
     if (ImageFile) {
         formData.append('ImageFile', ImageFile);
     }
     console.log(formData);
     $.ajax({
-        url: "/HocSinh/InsertHS",
+        url: "/GiaoVien/InsertGV",
         data: formData,
         type: 'post',
-        processData: false, 
-        contentType: false, 
+        processData: false,
+        contentType: false,
         success: function (response) {
             if (response == null || response == undefined || response.length == 0) {
                 alert('Nhập không đúng');
@@ -78,11 +80,11 @@ function Insert(count) {
         }
     });
 }
-function Delete(MaHS) {
+function Delete(MaGV) {
     $.ajax({
-        url: "/HocSinh/RemoveHS/" + MaHS,
-        data: MaHS,
-        type: "DELETE", 
+        url: "/GiaoVien/RemoveGV/" + MaGV,
+        data: MaGV,
+        type: "DELETE",
         success: function (response) {
             setTimeout(function () {
                 location.reload();
@@ -95,27 +97,28 @@ function Delete(MaHS) {
 }
 function Update(count) {
     var formData = new FormData();
-    formData.append('maHs', $('#detail #MaHs').val());
+    formData.append('maGv', $('#detail #MaGv').val());
     formData.append('passWord', $('#detail #PassWord').val());
-    formData.append('hoTenHs', $('#detail #HoTenHs').val());
+    formData.append('hoTenGv', $('#detail #HoTenGv').val());
     formData.append('queQuan', $('#detail #QueQuan').val());
-    formData.append('tenLop', $('#detail #TenLop').val());
+    formData.append('chuyenMon', $('#detail #ChuyenMon').val());
     formData.append('gioiTinh', $('#detail #GioiTinh').val());
-    formData.append('soDienThoaiHs', $('#detail #SoDienThoaiHs').val());
+    formData.append('maLuong', $('#detail #MaLuong').val());
     formData.append('ngaySinh', $('#detail #NgaySinh').val());
-    formData.append('hoTenPh', $('#detail #HoTenPh').val());
-    formData.append('soDienThoaiPh', $('#detail #SoDienThoaiPh').val());
+    formData.append('ngayBatDau', $('#detail #NgayBatDau').val());
+    formData.append('moTaKhac', $('#detail #MoTaKhac').val());
+    formData.append('chuNhiemLop', $('#detail #ChuNhiemLop').val());
     var ImageFile = $('#detail #ImageFile')[0].files[0];
     if (ImageFile) {
         formData.append('ImageFile', ImageFile);
     }
     console.log(formData);
     $.ajax({
-        url: "/HocSinh/PutHS",
+        url: "/GiaoVien/PutGV",
         data: formData,
         type: 'post',
         processData: false,
-        contentType: false, 
+        contentType: false,
         success: function (response) {
             setTimeout(function () {
                 location.reload();
@@ -124,20 +127,20 @@ function Update(count) {
         error: function () {
             alert('Lỗi khi update!!!');
         }
-        });
+    });
 }
 function Logout() {
     $.ajax({
-        url: "/HocSinh/Log",
+        url: "/GiaoVien/Log",
         type: 'get',
         success: function (response) {
-            window.location.href = response.redirectUrl; 
+            // Xử lý thành công, ví dụ: chuyển hướng hoặc hiển thị thông báo
+            window.location.href = response.redirectUrl; // Đây bạn có thể lấy địa chỉ chuyển hướng từ response nếu cần.
         },
         error: function (xhr, textStatus, errorThrown) {
             // Xử lý lỗi
             console.log("Lỗi: " + errorThrown);
         }
     });
-    
-}
 
+}
