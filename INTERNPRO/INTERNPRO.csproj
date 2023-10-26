@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\LuongGV\" />
     <Folder Include="wwwroot\Image\" />
   </ItemGroup>
 

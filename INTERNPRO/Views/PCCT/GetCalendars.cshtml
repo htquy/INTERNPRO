@@ -1,27 +1,28 @@
 ﻿@model IEnumerable<INTERNPRO.Datas.PhanCongCt>
 @{
-    Layout = "../Shared/_SidebarStudent.cshtml";
+    Layout = "../Shared/_SidebarAdmin.cshtml";
 }
 @{
     var hour = 7;
     var minute = 0;
 }
 <div class="container">
+    <span><h2>Lịch Công Tác Lớp @ViewBag.TL</h2></span>
     <div class="timetable-img text-center">
     </div>
     <div class="table-responsive">
-        <table class="table table-bordered text-center">
+        <table class="table table-bordered text-center" style="width:1150px">
             <thead>
                 <tr class="bg-light-gray">
-                    <th class="text-uppercase">
+                    <th class="text-uppercase" style="width:100px">
                         Time
                     </th>
-                    <th class="text-uppercase">Monday</th>
-                    <th class="text-uppercase">Tuesday</th>
-                    <th class="text-uppercase">Wednesday</th>
-                    <th class="text-uppercase">Thursday</th>
-                    <th class="text-uppercase">Friday</th>
-                    <th class="text-uppercase">Saturday</th>
+                    <th class="text-uppercase" style="width:150px">Monday</th>
+                    <th class="text-uppercase" style="width:150px">Tuesday</th>
+                    <th class="text-uppercase" style="width:150px">Wednesday</th>
+                    <th class="text-uppercase" style="width:150px">Thursday</th>
+                    <th class="text-uppercase" style="width:150px">Friday</th>
+                    <th class="text-uppercase" style="width:150px">Saturday</th>
                 </tr>
             </thead>
             <tbody>

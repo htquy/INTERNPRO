@@ -57,32 +57,53 @@ namespace INTERNPRO.Controllers.Admin
 
             if (ModelState.IsValid)
             {
-                string wwwRootPath = _en.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(hs.ImageFile.FileName);
-                string extension = Path.GetExtension(hs.ImageFile.FileName);
-                fileName = fileName + hs.MaHs.ToString() + extension;
-                string path = Path.Combine(wwwRootPath + "/Image/", fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
+                string fileName;
+                if (hs.ImageFile != null)
                 {
-                    await hs.ImageFile.CopyToAsync(fileStream);
+                    string wwwRootPath = _en.WebRootPath;
+                    fileName = Path.GetFileNameWithoutExtension(hs.ImageFile.FileName);
+                    string extension = Path.GetExtension(hs.ImageFile.FileName);
+                    fileName = fileName + hs.MaHs.ToString() + extension;
+                    string path = Path.Combine(wwwRootPath + "/Image/", fileName);
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await hs.ImageFile.CopyToAsync(fileStream);
+                    }
+                    var Student = new HocSinh()
+                    {
+                        MaHs = hs.MaHs,
+                        PassWord = hs.PassWord,
+                        HoTenHs = hs.HoTenHs,
+                        QueQuan = hs.QueQuan,
+                        TenLop = hs.TenLop,
+                        GioiTinh = hs.GioiTinh,
+                        SoDienThoaiHs = hs.SoDienThoaiHs,
+                        SoDienThoaiPh = hs.SoDienThoaiPh,
+                        NgaySinh = hs.NgaySinh,
+                        HoTenPh = hs.HoTenPh,
+                        Anh = fileName
+                    };
+                    _db.HocSinhs.Add(Student);
+                    _db.SaveChanges();
                 }
-                var Student = new HocSinh()
+                else
                 {
-                    MaHs = hs.MaHs,
-                    PassWord = hs.PassWord,
-                    HoTenHs = hs.HoTenHs,
-                    QueQuan = hs.QueQuan,
-                    TenLop = hs.TenLop,
-                    GioiTinh = hs.GioiTinh,
-                    SoDienThoaiHs = hs.SoDienThoaiHs,
-                    SoDienThoaiPh = hs.SoDienThoaiPh,
-                    NgaySinh = hs.NgaySinh,
-                    HoTenPh = hs.HoTenPh,
-                    Anh = fileName
-                };
-
-                _db.HocSinhs.Add(Student);
-                _db.SaveChanges();
+                    var Student = new HocSinh()
+                    {
+                        MaHs = hs.MaHs,
+                        PassWord = hs.PassWord,
+                        HoTenHs = hs.HoTenHs,
+                        QueQuan = hs.QueQuan,
+                        TenLop = hs.TenLop,
+                        GioiTinh = hs.GioiTinh,
+                        SoDienThoaiHs = hs.SoDienThoaiHs,
+                        SoDienThoaiPh = hs.SoDienThoaiPh,
+                        NgaySinh = hs.NgaySinh,
+                        HoTenPh = hs.HoTenPh,
+                    };
+                    _db.HocSinhs.Add(Student);
+                    _db.SaveChanges();
+                }
                 return Json("Them thanh cong");
             }
             return Json("Lỗi!!!");

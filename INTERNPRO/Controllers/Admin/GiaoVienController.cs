@@ -59,34 +59,56 @@ namespace INTERNPRO.Controllers.Admin
 
                 if (ModelState.IsValid)
                 {
-                    string wwwRootPath = _en.WebRootPath;
-                    string fileName = Path.GetFileNameWithoutExtension(gv.ImageFile.FileName);
-                    string extension = Path.GetExtension(gv.ImageFile.FileName);
-                    fileName = fileName + gv.MaGv.ToString() + extension;
-                    string path = Path.Combine(wwwRootPath + "/Image/", fileName);
-                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    string fileName;
+                    if (gv.ImageFile != null)
                     {
-                        await gv.ImageFile.CopyToAsync(fileStream);
+                        string wwwRootPath = _en.WebRootPath;
+                        fileName = Path.GetFileNameWithoutExtension(gv.ImageFile.FileName);
+                        string extension = Path.GetExtension(gv.ImageFile.FileName);
+                        fileName = fileName + gv.MaGv.ToString() + extension;
+                        string path = Path.Combine(wwwRootPath + "/Image/", fileName);
+                        using (var fileStream = new FileStream(path, FileMode.Create))
+                        {
+                            await gv.ImageFile.CopyToAsync(fileStream);
+                        }
+                        var Teacher = new GiaoVien()
+                        {
+                            MaGv = gv.MaGv,
+                            PassWord = gv.PassWord,
+                            QueQuan = gv.QueQuan,
+                            TenGv = gv.HoTenGv,
+                            ChuyenMon = gv.ChuyenMon,
+                            GioiTinh = gv.GioiTinh,
+                            MaLuong = gv.MaLuong,
+                            NgayBatDau = gv.NgayBatDau,
+                            NgaySinh = gv.NgaySinh,
+                            Motakhac = gv.MoTaKhac,
+                            ChuNhiemLop = gv.ChuNhiemLop,
+                            Anh = fileName
+                        };
+                        _db.GiaoViens.Add(Teacher);
+                        _db.SaveChanges();
+                        return Json("Them thanh cong");
                     }
-                    var Teacher = new GiaoVien()
-                    {
-                        MaGv = gv.MaGv,
-                        PassWord = gv.PassWord,
-                        QueQuan = gv.QueQuan,
-                        TenGv = gv.HoTenGv,
-                        ChuyenMon = gv.ChuyenMon,
-                        GioiTinh = gv.GioiTinh,
-                        MaLuong = gv.MaLuong,
-                        NgayBatDau = gv.NgayBatDau,
-                        NgaySinh = gv.NgaySinh,
-                        Motakhac = gv.MoTaKhac,
-                        ChuNhiemLop = gv.ChuNhiemLop,
-                        Anh = fileName
-                    };
-
-                    _db.GiaoViens.Add(Teacher);
-                    _db.SaveChanges();
-                    return Json("Them thanh cong");
+                    else {
+                        var Teacher = new GiaoVien()
+                        {
+                            MaGv = gv.MaGv,
+                            PassWord = gv.PassWord,
+                            QueQuan = gv.QueQuan,
+                            TenGv = gv.HoTenGv,
+                            ChuyenMon = gv.ChuyenMon,
+                            GioiTinh = gv.GioiTinh,
+                            MaLuong = gv.MaLuong,
+                            NgayBatDau = gv.NgayBatDau,
+                            NgaySinh = gv.NgaySinh,
+                            Motakhac = gv.MoTaKhac,
+                            ChuNhiemLop = gv.ChuNhiemLop,
+                        };
+                        _db.GiaoViens.Add(Teacher);
+                        _db.SaveChanges();
+                        return Json("Them thanh cong");
+                    }
                 }
                 return Json("Lỗi!!!");
 

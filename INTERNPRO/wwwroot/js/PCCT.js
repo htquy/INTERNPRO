@@ -64,7 +64,7 @@ function DeletePC(ma) {
                 alert(response);
                 setTimeout(function () {
                     location.reload();
-                }, 1000);
+                }, 2000);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
