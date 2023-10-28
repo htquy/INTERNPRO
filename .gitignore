@@ -365,3 +365,9 @@ FodyWeavers.xsd
 /INTERNPRO/Datas/InternProjectContext.cs
 /INTERNPRO/Controllers/AccountController.cs
 /INTERNPRO/Views/Shared/_SidebarStudent.cshtml
+/INTERNPRO/Datas/HocSinh.cs
+/INTERNPRO/Datas/InternProjectContext.cs
+/INTERNPRO/Models/HocSinhModel.cs
+/INTERNPRO/appsettings.json
+/INTERNPRO/Controllers/Admin/HocSinhController.cs
+/INTERNPRO/wwwroot/js/HSModal.js
