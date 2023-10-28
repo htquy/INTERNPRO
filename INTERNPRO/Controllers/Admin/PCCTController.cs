@@ -17,7 +17,9 @@ namespace INTERNPRO.Controllers.Admin
         }
         public IActionResult Index()
         {
-            return View();
+            var lop=_db.LopHocs.Select(x=>x.TenLop).ToList();
+            ViewBag.Lop = lop;
+            return View(ViewBag.Lop);
         }
         [HttpGet]
         [Route("/PCCT/GetCalendars/{Tenlop}")]

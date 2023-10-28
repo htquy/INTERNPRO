@@ -27,5 +27,7 @@ public partial class HocSinh
 
     public string? Anh { get; set; }
 
-    public virtual LopHoc TenLopNavigation { get; set; } = null!;
+    public DateTime? NgayNh { get; set; }
+
+    public virtual ICollection<Diem> Diems { get; set; } = new List<Diem>();
 }

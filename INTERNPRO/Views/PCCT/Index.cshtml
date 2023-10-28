@@ -10,9 +10,10 @@
                     <h2><label for="lop">Chọn Lớp:</label></h2>
     <p><input list="lops" id="lop" name="lop">
     <datalist id="lops">
-        <option value="10A4"></option>
-        <option value="11A1"></option>
-        <option value="12A2"></option>
+                            @foreach(var item in ViewBag.Lop)
+                            {
+                                <option value="@item"></option>
+                            }
     </datalist>
 <button id="showPCCT" class="btn btn-primary" onclick="ShowPCCT(document.getElementById('lop').value)">Tìm kiếm</button>    
 </p>

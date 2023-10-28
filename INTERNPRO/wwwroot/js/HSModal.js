@@ -1,13 +1,11 @@
 ﻿
-$(document).ready(function () {
-   // Insert();
-});
+
 $('#showPost').on('click', function () {
-    $('#postModal').modal('show');
+   $('#postModal').modal('show');
 });
 function DetailM(ma) {
     $.ajax({
-        url: "/HocSinh/GetHS/" + ma,
+        url: "/HocSinh/GetDetailHS/" + ma,
         data: ma,
         type: 'get',
         success: function (response) {

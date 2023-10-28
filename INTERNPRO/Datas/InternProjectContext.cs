@@ -31,27 +31,31 @@ public partial class InternProjectContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-EEG1PQP\\SQLEXPRESS;Initial Catalog=InternProject;Integrated Security=True;Encrypt=True;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-EEG1PQP\\SQLEXPRESS;Initial Catalog=InternProject;Integrated Security=True;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Diem>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("Diem");
+            entity.HasKey(e => e.MaDiem);
 
+            entity.ToTable("Diem");
+
+            entity.Property(e => e.MaDiem).ValueGeneratedNever();
             entity.Property(e => e.DiemCk).HasColumnName("DiemCK");
             entity.Property(e => e.DiemGk).HasColumnName("DiemGK");
+            entity.Property(e => e.Lop)
+                .HasMaxLength(10)
+                .IsFixedLength();
             entity.Property(e => e.MaHs).HasColumnName("MaHS");
             entity.Property(e => e.MaMh).HasColumnName("MaMH");
 
-            entity.HasOne(d => d.MaHsNavigation).WithMany()
+            entity.HasOne(d => d.MaHsNavigation).WithMany(p => p.Diems)
                 .HasForeignKey(d => d.MaHs)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Diem_HocSinh");
 
-            entity.HasOne(d => d.MaMhNavigation).WithMany()
+            entity.HasOne(d => d.MaMhNavigation).WithMany(p => p.Diems)
                 .HasForeignKey(d => d.MaMh)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Diem_MonHoc");
@@ -107,6 +111,9 @@ public partial class InternProjectContext : DbContext
             entity.Property(e => e.HoTenPh)
                 .HasMaxLength(50)
                 .HasColumnName("HoTenPH");
+            entity.Property(e => e.NgayNh)
+                .HasColumnType("date")
+                .HasColumnName("NgayNH");
             entity.Property(e => e.NgaySinh).HasColumnType("date");
             entity.Property(e => e.PassWord)
                 .HasMaxLength(10)
@@ -117,11 +124,6 @@ public partial class InternProjectContext : DbContext
             entity.Property(e => e.TenLop)
                 .HasMaxLength(10)
                 .IsFixedLength();
-
-            entity.HasOne(d => d.TenLopNavigation).WithMany(p => p.HocSinhs)
-                .HasForeignKey(d => d.TenLop)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_HocSinh_LopHoc");
         });
 
         modelBuilder.Entity<LopHoc>(entity =>
