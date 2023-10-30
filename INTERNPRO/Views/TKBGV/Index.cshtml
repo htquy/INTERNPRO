@@ -1,10 +1,31 @@
 ﻿@model IEnumerable<INTERNPRO.Models.CTGV>
 @{
-    Layout = "../Shared/_SidebarAdmin.cshtml";
+    Layout = "../Shared/_SidebarStudent.cshtml";
+    string ttgv_link = "/TTGV/" + ViewBag.GV.MaGv;
+    string diem_link = "/Diem/" + ViewBag.GV.MaGv;
+    string tkb_link = "/TKBGV/" + ViewBag.GV.MaGv;
 }
 @{
     var hour = 7;
     var minute = 0;
+}
+@section Section3{
+    <a href="@ttgv_link" class="nav-link text-white custom-nav-link">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+        Thông tin GV
+    </a>
+}
+@section Section4{
+    <a href="@diem_link" class="nav-link text-white custom-nav-link">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+        Điểm Học Sinh
+    </a>
+}
+@section Section5{
+    <a href="@tkb_link" class="nav-link text-white custom-nav-link">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+        Lịch công tác
+    </a>
 }
 <div class="container">
     <span style="position:center"><h2>Lịch Công Tác</h2></span>

@@ -15,6 +15,7 @@ namespace INTERNPRO.Controllers.GV
         [Route("/TKBGV/{MaGV}")]
         public IActionResult Index()
         {
+
             string magv = HttpContext.GetRouteValue("MaGV") as string;
             int Ma = int.Parse(magv);
             if (magv != null)

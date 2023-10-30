@@ -19,7 +19,7 @@ public partial class Diem
 
     public string Lop { get; set; } = null!;
 
-    public int MaDiem { get; set; }
+    public string MaDiem { get; set; } = null!;
 
     public virtual HocSinh MaHsNavigation { get; set; } = null!;
 

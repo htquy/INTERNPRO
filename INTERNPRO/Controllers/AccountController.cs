@@ -36,14 +36,14 @@ namespace INTERNPRO.Controllers
 
                     if (gv != null && gv.TenGv == "Admin")
                     {
-                        _db.SaveChanges();
                         var redirectUrl = "/Account/Admin";
                         return Json(new { redirectUrl });
                     }
                     else if (gv != null)
                     {
                         var MaGv = int.Parse(code);
-                        return Redirect("/GiaoVien/GetGV/" + MaGv);
+                        var redirectUrl = "/TTGV/"+MaGv;
+                        return Json(new { redirectUrl });
                     }
                     else return Ok();
                 }
@@ -56,12 +56,7 @@ namespace INTERNPRO.Controllers
         {
             return View(MaHS);
         }
-        [HttpGet]
-        [Route("/Account/GetHS/{MaGv}")]
-        public IActionResult GetGV(int MaGv)
-        {
-            return View(MaGv);
-        }
+       
         [HttpGet]
         public IActionResult Admin()
         {

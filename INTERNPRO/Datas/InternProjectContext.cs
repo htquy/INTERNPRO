@@ -41,7 +41,7 @@ public partial class InternProjectContext : DbContext
 
             entity.ToTable("Diem");
 
-            entity.Property(e => e.MaDiem).ValueGeneratedNever();
+            entity.Property(e => e.MaDiem).HasMaxLength(50);
             entity.Property(e => e.DiemCk).HasColumnName("DiemCK");
             entity.Property(e => e.DiemGk).HasColumnName("DiemGK");
             entity.Property(e => e.Lop)
