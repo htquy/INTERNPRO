@@ -1,0 +1,68 @@
+﻿@model IEnumerable<INTERNPRO.Models.LuongModel>
+@{
+    Layout = "../Shared/_SidebarAdmin.cshtml";
+    var count = 0;
+}
+<main style="margin-top:10px">
+    <table class="table" style="width:1150px">
+        <thead>
+            <tr>
+                <th>
+                    <b>Mã GV</b>
+                </th>
+                <th>
+                    <b>Tên GV</b>
+                </th>
+                <th>
+                    <b>Mã Lương</b>
+                </th>
+                <th>
+                    <b>Số Ca</b>
+                </th>
+                <th>
+                    <b>Lương Cơ bản</b>
+                </th>
+                <th>
+                    <b>Thưởng thêm</b>
+                </th>
+                <th>
+                    <b>Tổng Lương</b>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MaGV)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TenGV)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MaL)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SoCa)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Luong)
+                    </td>
+                    <td>
+                        <input value="@item.Thuong" class="thuong">
+                    </td>
+                    @{
+                        var TongL = item.Luong * item.SoCa + item.Thuong;
+                        count++;
+                    }
+                    <td>
+                        @TongL
+                    </td>
+                </tr>
+            }
+            <button class="btn btn-primary" onclick="EditLuong(@count)">Save changes</button>
+        </tbody>
+    </table>
+</main>
+<script src="~/js/Luong.js"></script>

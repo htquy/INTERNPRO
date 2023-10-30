@@ -27,7 +27,7 @@ namespace INTERNPRO.Controllers
                 if (hs != null)
                 {
                     var MaHS = int.Parse(code);
-                    var redirectUrl = "/HocSinh/GetHS";
+                    var redirectUrl = "/TTHS/" + code;
                     return Json(new { redirectUrl });
                 }
                 else
@@ -45,10 +45,10 @@ namespace INTERNPRO.Controllers
                         var MaGv = int.Parse(code);
                         return Redirect("/GiaoVien/GetGV/" + MaGv);
                     }
-                    else return Json("Không tìm thấy dữ kiện");
+                    else return Ok();
                 }
             }
-            else return Json("ko hop le!!");
+            else return Ok();
         }
         [HttpGet]
         [Route("/Account/GetHS/{MaHS}")]

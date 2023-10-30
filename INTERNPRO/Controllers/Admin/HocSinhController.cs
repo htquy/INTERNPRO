@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace INTERNPRO.Controllers.Admin
 {
@@ -19,36 +20,39 @@ namespace INTERNPRO.Controllers.Admin
 
         public IActionResult Index()
         {
-            return View();
+            var lop = _db.LopHocs.Select(x => x.TenLop).ToList();
+            ViewBag.Lop = lop;
+            return View(ViewBag.Lop);
         }
-        [HttpGet]
-        public IActionResult GetHS()
+        [HttpGet("GetHS")]
+        [Route("/HocSinh/GetHS/{Lop}")]
+        public IActionResult GetHS(string Lop)
         {
-
             List<HocSinh> hocsinhs = new List<HocSinh>();
-            hocsinhs = _db.HocSinhs.ToList();
+            hocsinhs = _db.HocSinhs.Where(x => x.TenLop == Lop).OrderBy(s => s.HoTenHs).ToList();
+            var dshs = _db.HocSinhs.ToList();
             int maxID;
-            if (hocsinhs.Count == 0)
+            if (dshs.Count == 0)
             {
                 maxID = DateTime.Now.Year * 10000;
             }
-            else if (hocsinhs.Max(s => s.MaHs) < DateTime.Now.Year * 10000)
+            else if (dshs.Max(s => s.MaHs) < DateTime.Now.Year * 10000)
             {
                 maxID = DateTime.Now.Year * 10000;
             }
             else
             {
-                maxID = hocsinhs.Max(s => s.MaHs);
+                maxID = dshs.Max(s => s.MaHs);
             }
             ViewBag.HS = hocsinhs;
             ViewBag.mahs = maxID;
             return View();
         }
         [HttpGet]
-        [Route("HocSinh/GetHS/{MaHS}")]
+        [Route("HocSinh/GetDetailHS/{MaHS}")]
         public IActionResult GetDataileHS(int MaHS)
         {
-            var hs=_db.HocSinhs.SingleOrDefault(x=>x.MaHs==MaHS);
+            var hs = _db.HocSinhs.SingleOrDefault(x => x.MaHs == MaHS);
             return Json(hs);
         }
         [HttpPost]
@@ -57,32 +61,60 @@ namespace INTERNPRO.Controllers.Admin
 
             if (ModelState.IsValid)
             {
-                string wwwRootPath = _en.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(hs.ImageFile.FileName);
-                string extension = Path.GetExtension(hs.ImageFile.FileName);
-                fileName = fileName + hs.MaHs.ToString() + extension;
-                string path = Path.Combine(wwwRootPath + "/Image/", fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
+                string phoneNumberParttern = @"0\d{9}$";
+                if (!Regex.IsMatch(hs.SoDienThoaiHs, phoneNumberParttern))
                 {
-                    await hs.ImageFile.CopyToAsync(fileStream);
+                    return Json("Số Điện Thoại Không Hợp Lệ");
                 }
-                var Student = new HocSinh()
+                string fileName;
+                if (hs.ImageFile != null)
                 {
-                    MaHs = hs.MaHs,
-                    PassWord = hs.PassWord,
-                    HoTenHs = hs.HoTenHs,
-                    QueQuan = hs.QueQuan,
-                    TenLop = hs.TenLop,
-                    GioiTinh = hs.GioiTinh,
-                    SoDienThoaiHs = hs.SoDienThoaiHs,
-                    SoDienThoaiPh = hs.SoDienThoaiPh,
-                    NgaySinh = hs.NgaySinh,
-                    HoTenPh = hs.HoTenPh,
-                    Anh = fileName
-                };
-
-                _db.HocSinhs.Add(Student);
-                _db.SaveChanges();
+                    string wwwRootPath = _en.WebRootPath;
+                    fileName = Path.GetFileNameWithoutExtension(hs.ImageFile.FileName);
+                    string extension = Path.GetExtension(hs.ImageFile.FileName);
+                    fileName = fileName + hs.MaHs.ToString() + extension;
+                    string path = Path.Combine(wwwRootPath + "/Image/", fileName);
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await hs.ImageFile.CopyToAsync(fileStream);
+                    }
+                    var Student = new HocSinh()
+                    {
+                        MaHs = hs.MaHs,
+                        PassWord = hs.PassWord,
+                        HoTenHs = hs.HoTenHs,
+                        QueQuan = hs.QueQuan,
+                        TenLop = hs.TenLop,
+                        GioiTinh = hs.GioiTinh,
+                        SoDienThoaiHs = hs.SoDienThoaiHs,
+                        SoDienThoaiPh = hs.SoDienThoaiPh,
+                        NgaySinh = hs.NgaySinh,
+                        HoTenPh = hs.HoTenPh,
+                        NgayNh = hs.NgayNh,
+                        Anh = fileName
+                    };
+                    _db.HocSinhs.Add(Student);
+                    _db.SaveChanges();
+                }
+                else
+                {
+                    var Student = new HocSinh()
+                    {
+                        MaHs = hs.MaHs,
+                        PassWord = hs.PassWord,
+                        HoTenHs = hs.HoTenHs,
+                        QueQuan = hs.QueQuan,
+                        TenLop = hs.TenLop,
+                        GioiTinh = hs.GioiTinh,
+                        SoDienThoaiHs = hs.SoDienThoaiHs,
+                        SoDienThoaiPh = hs.SoDienThoaiPh,
+                        NgaySinh = hs.NgaySinh,
+                        NgayNh = hs.NgayNh,
+                        HoTenPh = hs.HoTenPh,
+                    };
+                    _db.HocSinhs.Add(Student);
+                    _db.SaveChanges();
+                }
                 return Json("Them thanh cong");
             }
             return Json("Lỗi!!!");
@@ -93,8 +125,15 @@ namespace INTERNPRO.Controllers.Admin
         public IActionResult RemoveHS(int mahs)
         {
             var hs = _db.HocSinhs.SingleOrDefault(x => x.MaHs == mahs);
+            var diem = _db.Diems.Where(x => x.MaHs == mahs);
             if (hs != null)
             {
+                if (diem != null)
+                {
+
+                    _db.Diems.RemoveRange(diem);
+                    _db.SaveChanges();
+                }
                 _db.HocSinhs.Remove(hs);
                 _db.SaveChanges();
                 return Json("Xoa thanh cong!");
@@ -126,6 +165,7 @@ namespace INTERNPRO.Controllers.Admin
                     hocsinh.MaHs = hs.MaHs;
                     hocsinh.PassWord = hs.PassWord;
                     hocsinh.SoDienThoaiPh = hs.SoDienThoaiPh;
+                    hocsinh.SoDienThoaiHs = hs.SoDienThoaiHs;
                     hocsinh.QueQuan = hs.QueQuan;
                     hocsinh.HoTenPh = hs.HoTenPh;
                     hocsinh.NgaySinh = hs.NgaySinh;
@@ -133,6 +173,7 @@ namespace INTERNPRO.Controllers.Admin
                     hocsinh.HoTenPh = hs.HoTenPh;
                     hocsinh.GioiTinh = hs.GioiTinh;
                     hocsinh.TenLop = hs.TenLop;
+                    hocsinh.NgayNh = hs.NgayNh;
                     _db.SaveChanges();
                     return Json("Sua doi thanh cong");
                 }

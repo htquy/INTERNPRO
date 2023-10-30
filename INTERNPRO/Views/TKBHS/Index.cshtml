@@ -1,0 +1,86 @@
+﻿@model IEnumerable<INTERNPRO.Models.TKBHsModel>
+@{
+    Layout = "../Shared/_SidebarStudent.cshtml";
+    string tths_link = "/TTHS/" + ViewBag.Ma;
+    string diem_link = "/DiemHS/" + ViewBag.Ma;
+    string tkb_link = "/TKBHS/" + ViewBag.Ma;
+}
+@section Section3{
+    <a href="@tths_link" class="nav-link text-white custom-nav-link">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+        Thông tin HS
+    </a>
+}
+@section Section4{
+    <a href="@diem_link" class="nav-link text-white custom-nav-link">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+        Điểm Học Tập
+    </a>
+}
+@section Section5{
+    <a href="@tkb_link" class="nav-link text-white custom-nav-link">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+        Thời khóa biểu
+    </a>
+}
+@{
+    var hour = 7;
+    var minute = 0;
+}
+<div class="container">
+    <h2 style="display: flex;flex-direction: column;justify-content: center;align-items: center;">Thời khóa biểu lớp @ViewBag.Lop</h2>
+    <div class="timetable-img text-center">
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered text-center" style="width:1150px">
+            <thead>
+                <tr class="bg-light-gray">
+                    <th class="text-uppercase" style="width:100px">
+                        Time
+                    </th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Monday</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Tuesday</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Wednesday</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Thursday</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Friday</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Saturday</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 1; i < 6; i++)
+                {
+                    <tr>
+                        @{
+                            var h = hour.ToString();
+                            var m = minute.ToString();
+                            if (hour < 10) h = "0" + h;
+                            if (minute < 10) m = "0" + m;
+                        }
+                        <td class="align-middle" style="background-color:yellow">@h:@m am</td>
+                        @{
+                            minute = minute + 55;
+                            if (minute > 60) { minute = minute - 60; hour++; }
+                        }
+                        @for (int j = 2; j < 8; j++)
+                        {
+                            <td>
+                                @{
+                                    foreach (var item in Model)
+                                    {
+                                        if (item.Ca == i && item.Ngay == j)
+                                        {
+                                            <div>@item.TenGv</div>
+                                            <br />
+                                            <div>@item.Mh</div>
+                                        }
+                                    }
+                                }
+                            </td>
+                        }
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

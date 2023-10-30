@@ -1,13 +1,11 @@
 ﻿
-$(document).ready(function () {
-   // Insert();
-});
+
 $('#showPost').on('click', function () {
-    $('#postModal').modal('show');
+   $('#postModal').modal('show');
 });
 function DetailM(ma) {
     $.ajax({
-        url: "/HocSinh/GetHS/" + ma,
+        url: "/HocSinh/GetDetailHS/" + ma,
         data: ma,
         type: 'get',
         success: function (response) {
@@ -25,11 +23,10 @@ function DetailM(ma) {
                 $('#detail #NgaySinh').val(response.ngaySinh);
                 $('#detail #SoDienThoaiPh').val(response.soDienThoaiPh);
                 $('#detail #HoTenPh').val(response.hoTenPh);
-                var imagePath = '../Image/' + response.anh;
+                $('#detail #NgayNh').val(response.ngayNh);
+                var imagePath = '/Image/' + response.anh;
                 object += '<label asp-for="ImageFile" class="col-sm-2 col-form-label"></label>' +
                     '<img src="' + imagePath + '" asp-append-version="true" width="150px">';
-
-
                 $('#anh_HS').html(object);
                 $('#detail').modal('show');
                 
@@ -52,6 +49,7 @@ function Insert(count) {
     formData.append('ngaySinh', $('#postModal #NgaySinh').val());
     formData.append('hoTenPh', $('#postModal #HoTenPh').val());
     formData.append('soDienThoaiPh', $('#postModal #SoDienThoaiPh').val());
+    formData.append('ngayNh', $('#postModal #NgayNh').val());
     var ImageFile = $('#postModal #ImageFile')[0].files[0];
     if (ImageFile) {
         formData.append('ImageFile', ImageFile);
@@ -105,6 +103,7 @@ function Update(count) {
     formData.append('ngaySinh', $('#detail #NgaySinh').val());
     formData.append('hoTenPh', $('#detail #HoTenPh').val());
     formData.append('soDienThoaiPh', $('#detail #SoDienThoaiPh').val());
+    formData.append('ngayNh', $('#detail #NgayNh').val());
     var ImageFile = $('#detail #ImageFile')[0].files[0];
     if (ImageFile) {
         formData.append('ImageFile', ImageFile);

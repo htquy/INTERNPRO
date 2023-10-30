@@ -1,11 +1,30 @@
-﻿<table>
-    @for (int row = 0; row < 5; row++)
-    {
-        <tr>
-            @for (int col = 0; col < 5; col++)
-            {
-                <td>@(row * 5 + col + 1)</td>
-            }
-        </tr>
-    }
-</table>
+﻿@{
+    Layout = "../Shared/_SidebarAdmin.cshtml";
+}
+<script src="~/js/HSModal.js"></script>
+<div>
+
+    <p>
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h1 style="color:aqua">DANH SÁCH HỌC SINH THEO LỚP</h1>
+                    <h2><label for="lop">Chọn Lớp:</label></h2>
+                    <p>
+
+                        <form method="get" asp-controller="HocSinh" asp-action="GetHS">
+                            <input list="lops" id="lop" name="lop">
+                            <datalist id="lops">
+                                @foreach (var item in ViewBag.Lop)
+                                {
+                                    <option value="@item"></option>
+                                }
+                            </datalist>
+                            <input type="text" value="document.getElementById('lop').value" style="display:none;">
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </form>
+                    </p>
+
+                </div>
+    </p>
+</div>

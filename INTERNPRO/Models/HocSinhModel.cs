@@ -20,18 +20,19 @@ public partial class HocSinhModel
     [Required]
     public string GioiTinh { get; set; }
 
-    public int SoDienThoaiHs { get; set; }
+    public string SoDienThoaiHs { get; set; }
 
     public DateTime NgaySinh { get; set; }
     [Required]
     public string HoTenPh { get; set; }
 
-    public int? SoDienThoaiPh { get; set; }
+    public string? SoDienThoaiPh { get; set; }
 
+    public DateTime? NgayNh { get; set; }
     public string? Anh { get; set; }
     [NotMapped]
     [DisplayName("Upload File")]
     public IFormFile? ImageFile { get; set; }
-    
+
     //public virtual LopHoc TenLopNavigation { get; set; } = null!;
 }

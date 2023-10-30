@@ -1,0 +1,84 @@
+﻿@{
+    Layout = "../Shared/_SidebarStudent.cshtml";
+    var listdiem = ViewBag.diems as IEnumerable<INTERNPRO.Models.DSDiemHSModel>;
+    List<string> listlop = new List<string>() { "10", "11", "12" };
+    string tths_link = "/TTHS/" + ViewBag.ma;
+    string diem_link = "/DiemHS/" + ViewBag.ma;
+    string tkb_link = "/TKBHS/" + ViewBag.ma;
+}
+@section Section3{
+    <a href="@tths_link" class="nav-link text-white custom-nav-link">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+        Thông tin HS
+    </a>
+}
+@section Section4{
+    <a href="@diem_link" class="nav-link text-white custom-nav-link">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+        Điểm Học Tập
+    </a>
+}
+@section Section5{
+    <a href="@tkb_link" class="nav-link text-white custom-nav-link">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+        Thời khóa biểu
+    </a>
+}
+<div style="margin-left:20px;margin-top:20px; float:left">
+    <h2 style="display: flex;flex-direction: column;justify-content: center;align-items: center;">Lịch Công Tác Lớp @ViewBag.TL</h2>
+    <div class="timetable-img text-center">
+    </div>
+    <div class="table-responsive" style="margin-left:100px;margin-top:100px">
+        <table class="table table-bordered text-center" style="width:1000px">
+            <thead>
+                <tr class="bg-light-gray">
+                    <th class="text-uppercase" style="width:50px">
+                        STT
+                    </th>
+                    <th class="text-uppercase">Mã môn ĐK</th>
+                    <th class="text-uppercase">Lớp ĐK</th>
+                    <th class="text-uppercase">Tên môn</th>
+                    <th class="text-uppercase">Kì</th>
+                    <th class="text-uppercase">Điểm 15p</th>
+                    <th class="text-uppercase">Điểm GK</th>
+                    <th class="text-uppercase">Điểm CK</th>
+                    <th class="text-uppercase">Điểm TB</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (string i in listlop)
+                {
+                    for (int j = 1; j < 3; j++)
+                    {
+                        <tr style="border-right:none;background-color:#999">
+                            <td></td>
+                            <td>Kì @j- Lớp @i</td>
+                        </tr>
+                        int count = 0;
+                        var diemki = listdiem.Where(x => x.Ki == j && x.Lop.Contains(i)).OrderBy(x => x.TenMh).ToList();
+                        foreach (var item in diemki)
+                        {
+                            var ma = item.MaMh + item.Lop + item.Ki;
+                            count++;
+                            <tr>
+                                <th>@count</th>
+                                <th>@ma</th>
+                                <th>@item.Lop</th>
+                                <th>@item.TenMh</th>
+                                <th>@item.Ki</th>
+                                <th>@item.Diem15</th>
+                                <th>@item.DiemGk</th>
+                                <th>@item.DiemCk</th>
+                                <th>@((float)(item.DiemCk * 3 + item.DiemGk * 2 + item.Diem15) / 6)</th>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+

@@ -30,27 +30,27 @@ function PhanCong(lop, ca) {
 }
 function PostPCCT(lop, ca) {
     str = document.getElementById('dsgvmh').value,
-    
-    $.ajax({
-        url: "/PCCT/GetCalendars/" + lop + "/" + ca+"/"+str,
-        type: 'post',
-        data:str,
-        success: function (response) {
-            if (response == null || response == undefined || response.length == 0) {
-                alert('Hỏng');
-            } else {
-                alert(response);
-                setTimeout(function () {
-                    location.reload();
-                }, 1000);
+
+        $.ajax({
+            url: "/PCCT/GetCalendars/" + lop + "/" + ca + "/" + str,
+            type: 'post',
+            data: str,
+            success: function (response) {
+                if (response == null || response == undefined || response.length == 0) {
+                    alert('Hỏng');
+                } else {
+                    alert(response);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Hiển thị lỗi từ phản hồi
+                console.log('Lỗi: ' + jqXHR.status + ' - ' + jqXHR.statusText);
+                console.log('Lỗi chi tiết: ' + jqXHR.responseText);
             }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            // Hiển thị lỗi từ phản hồi
-            console.log('Lỗi: ' + jqXHR.status + ' - ' + jqXHR.statusText);
-            console.log('Lỗi chi tiết: ' + jqXHR.responseText);
-        }
-    });
+        });
 }
 function DeletePC(ma) {
     $.ajax({
@@ -64,7 +64,7 @@ function DeletePC(ma) {
                 alert(response);
                 setTimeout(function () {
                     location.reload();
-                }, 1000);
+                }, 2000);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {

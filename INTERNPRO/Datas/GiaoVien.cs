@@ -29,6 +29,10 @@ public partial class GiaoVien
 
     public string? ChuNhiemLop { get; set; }
 
+    public int? ThuongThem { get; set; }
+
+    public string? SoDienThoaiGv { get; set; }
+
     public virtual Luong MaLuongNavigation { get; set; } = null!;
 
     public virtual ICollection<PhanCongCt> PhanCongCts { get; set; } = new List<PhanCongCt>();

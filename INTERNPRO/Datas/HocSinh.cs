@@ -17,15 +17,17 @@ public partial class HocSinh
 
     public string GioiTinh { get; set; } = null!;
 
-    public int SoDienThoaiHs { get; set; }
+    public string SoDienThoaiHs { get; set; } = null!;
 
     public DateTime NgaySinh { get; set; }
 
     public string HoTenPh { get; set; } = null!;
 
-    public int? SoDienThoaiPh { get; set; }
+    public string? SoDienThoaiPh { get; set; }
 
     public string? Anh { get; set; }
 
-    public virtual LopHoc TenLopNavigation { get; set; } = null!;
+    public DateTime? NgayNh { get; set; }
+
+    public virtual ICollection<Diem> Diems { get; set; } = new List<Diem>();
 }

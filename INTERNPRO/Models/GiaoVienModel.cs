@@ -29,6 +29,7 @@ public partial class GiaoVienModel
     public string? MoTaKhac { get; set; }
 
     public string? ChuNhiemLop { get; set; }
+    public string SoDienThoaiGV { get; set; }
 
     public string? Anh { get; set; }
     [NotMapped]

@@ -1,0 +1,81 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout.cshtml";
+}
+<style>
+    /* Tùy chỉnh class cho màu xanh khi bấm vào */
+    .custom-nav-link:active, .custom-nav-link:focus {
+        background-color: dodgerblue !important;
+    }
+</style>
+@section Section1 {
+    <button onclick="Logout()" style="width:100px">Đăng xuất</button>
+}
+<div class="row" style="height:100%">
+    <div class="col col-1 col-md-2" style="background-color:#999;padding-left: 30px;">
+        <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 200px;">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+                <span class="fs-4">MENU</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item custom-nav-item">
+                    <a href="/Account/Admin" class="nav-link text-white custom-nav-link">
+                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+                        Home
+                    </a>
+                </li>
+                <li class="nav-item custom-nav-item">
+                    <a href="/HocSinh" class="nav-link text-white custom-nav-link">
+                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+                        Hoc Sinh
+                    </a>
+                </li>
+                <li class="nav-item custom-nav-item">
+                    <a href="/GiaoVien/GetGV" class="nav-link text-white custom-nav-link">
+                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+                        Giao vien
+                    </a>
+                </li>
+                <li class="nav-item custom-nav-item">
+                    <a href="/PCCT" class="nav-link text-white custom-nav-link">
+                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+                        Phan cong
+                    </a>
+                <li class="nav-item custom-nav-item">
+                    <a href="/LuongGV/GetLuong" class="nav-link text-white custom-nav-link">
+                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+                        Luong GV
+                    </a>
+                </li>
+            </ul>
+            <style>
+                .custom-nav-link:hover {
+                    background-color: lightblue;
+                    color: black;
+                }
+            </style>
+
+            <hr>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong>mdo</strong>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="">
+                    <li><a class="dropdown-item" href="#">New project...</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col" style="background-color:aliceblue;min-height: 600px; ">
+        @RenderBody()
+    </div>
+</div>

@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/INTERNPRO.styles.css" asp-append-version="true" />
 </head>
-<body>
-    <header>
+<body style="background-color:#999">
+    <header style="background-color:azure">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">INTERNPRO</a>
@@ -31,13 +31,11 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div>
+        @RenderBody()
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted" style="background-color:aliceblue">
         <div class="container">
             &copy; 2023 - INTERNPRO - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

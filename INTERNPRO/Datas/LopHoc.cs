@@ -11,7 +11,5 @@ public partial class LopHoc
 
     public int SoLuongChoNgoi { get; set; }
 
-    public virtual ICollection<HocSinh> HocSinhs { get; set; } = new List<HocSinh>();
-
     public virtual ICollection<PhanCongCt> PhanCongCts { get; set; } = new List<PhanCongCt>();
 }
