@@ -1,4 +1,7 @@
-﻿function ShowPCCT(TenL) {
+﻿function CloseModal() {
+    $('#listGVMH').modal('hide');
+}
+function ShowPCCT(TenL) {
     window.location = "https://localhost:7275/PCCT/GetCalendars/" + TenL;
 }
 function PhanCong(lop, ca) {

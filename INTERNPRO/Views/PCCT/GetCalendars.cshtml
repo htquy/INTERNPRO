@@ -17,12 +17,12 @@
                     <th class="text-uppercase" style="width:100px">
                         Time
                     </th>
-                    <th class="text-uppercase" style="width:130px">Monday</th>
-                    <th class="text-uppercase" style="width:130px">Tuesday</th>
-                    <th class="text-uppercase" style="width:130px">Wednesday</th>
-                    <th class="text-uppercase" style="width:130px">Thursday</th>
-                    <th class="text-uppercase" style="width:130px">Friday</th>
-                    <th class="text-uppercase" style="width:130px">Saturday</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Monday</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Tuesday</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Wednesday</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Thursday</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Friday</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Saturday</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,7 +35,7 @@
                             if (hour < 10) h = "0" + h;
                             if (minute < 10) m = "0" + m;
                         }
-                        <td class="align-middle">@h:@m am</td>
+                        <td class="align-middle" style="background-color:yellow">@h:@m am</td>
                         @{
                             minute = minute + 55;
                             if (minute > 60) { minute = minute - 60; hour++; }
@@ -69,13 +69,12 @@
             </tbody>
         </table>
     </div>
-    </div>
     <div class="modal" tabindex="-1" role="dialog" style="display: none" id="listGVMH">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="CloseModal()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>

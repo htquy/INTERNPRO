@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<INTERNPRO.Models.CTGV>
 @{
-    Layout = "../Shared/_SidebarStudent.cshtml";
+    Layout = "../Shared/_SidebarGiaoVien.cshtml";
     string ttgv_link = "/TTGV/" + ViewBag.MaGv;
     string diem_link = "/Diem/" + ViewBag.MaGv;
     string tkb_link = "/TKBGV/" + ViewBag.MaGv;
@@ -38,12 +38,12 @@
                     <th class="text-uppercase" style="width:100px">
                         Time
                     </th>
-                    <th class="text-uppercase" style="width:150px">Monday</th>
-                    <th class="text-uppercase" style="width:150px">Tuesday</th>
-                    <th class="text-uppercase" style="width:150px">Wednesday</th>
-                    <th class="text-uppercase" style="width:150px">Thursday</th>
-                    <th class="text-uppercase" style="width:150px">Friday</th>
-                    <th class="text-uppercase" style="width:150px">Saturday</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Monday</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Tuesday</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Wednesday</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Thursday</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Friday</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Saturday</th>
                 </tr>
             </thead>
             <tbody>
@@ -56,7 +56,7 @@
                             if (hour < 10) h = "0" + h;
                             if (minute < 10) m = "0" + m;
                         }
-                        <td class="align-middle">@h:@m am</td>
+                        <td class="align-middle" style="background-color:yellow">@h:@m am</td>
                         @{
                             minute = minute + 55;
                             if (minute > 60) { minute = minute - 60; hour++; }
