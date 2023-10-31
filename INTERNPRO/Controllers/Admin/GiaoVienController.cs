@@ -86,6 +86,7 @@ namespace INTERNPRO.Controllers.Admin
                             TenGv = gv.HoTenGv,
                             ChuyenMon = gv.ChuyenMon,
                             GioiTinh = gv.GioiTinh,
+                            SoDienThoaiGv = gv.SoDienThoaiGV,
                             MaLuong = gv.MaLuong,
                             NgayBatDau = gv.NgayBatDau,
                             NgaySinh = gv.NgaySinh,
@@ -107,6 +108,7 @@ namespace INTERNPRO.Controllers.Admin
                             TenGv = gv.HoTenGv,
                             ChuyenMon = gv.ChuyenMon,
                             GioiTinh = gv.GioiTinh,
+                            SoDienThoaiGv=gv.SoDienThoaiGV,
                             MaLuong = gv.MaLuong,
                             NgayBatDau = gv.NgayBatDau,
                             NgaySinh = gv.NgaySinh,
@@ -169,6 +171,7 @@ namespace INTERNPRO.Controllers.Admin
                         giaovien.TenGv = gv.HoTenGv;
                         giaovien.ChuyenMon = gv.ChuyenMon;
                         giaovien.GioiTinh = gv.GioiTinh;
+                        giaovien.SoDienThoaiGv = gv.SoDienThoaiGV;
                         giaovien.MaLuong = gv.MaLuong;
                         giaovien.NgaySinh = gv.NgaySinh;
                         giaovien.NgayBatDau = gv.NgayBatDau;

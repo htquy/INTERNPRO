@@ -23,6 +23,7 @@ function DetailM(ma) {
                 $('#detail #GioiTinh').val(response.gioiTinh);
                 $('#detail #MaLuong').val(response.maLuong);
                 $('#detail #NgaySinh').val(response.ngaySinh);
+                $('#detail #SoDienThoaiGV').val(response.soDienThoaiGv);
                 $('#detail #NgayBatDau').val(response.ngayBatDau);
                 $('#detail #MoTaKhac').val(response.moTaKhac);
                 $('#detail #ChuNhiemLop').val(response.chuNhiemLop);
@@ -51,6 +52,7 @@ function Insert(count) {
     formData.append('gioiTinh', $('#postModal #GioiTinh').val());
     formData.append('maLuong', $('#postModal #MaLuong').val());
     formData.append('ngaySinh', $('#postModal #NgaySinh').val());
+    formData.append('soDienThoaiGv', $('#postModal #SoDienThoaiGV').val());
     formData.append('ngayBatDau', $('#postModal #NgayBatDau').val());
     formData.append('moTaKhac', $('#postModal #MoTaKhac').val());
     formData.append('chuNhiemLop', $('#postModal #ChuNhiemLop').val());
@@ -105,6 +107,7 @@ function Update(count) {
     formData.append('gioiTinh', $('#detail #GioiTinh').val());
     formData.append('maLuong', $('#detail #MaLuong').val());
     formData.append('ngaySinh', $('#detail #NgaySinh').val());
+    formData.append('soDienThoaiGv', $('#detail #SoDienThoaiGV').val());
     formData.append('ngayBatDau', $('#detail #NgayBatDau').val());
     formData.append('moTaKhac', $('#detail #MoTaKhac').val());
     formData.append('chuNhiemLop', $('#detail #ChuNhiemLop').val());

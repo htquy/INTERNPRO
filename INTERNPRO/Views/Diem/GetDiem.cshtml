@@ -1,0 +1,96 @@
+﻿@model IEnumerable<INTERNPRO.Models.DiemModel>
+
+@{
+    ViewData["Title"] = "GetDiem";
+
+}
+@{
+    Layout = "../Shared/_SidebarGiaoVien.cshtml";
+    string ttgv_link = "/TTGV/" + ViewBag.magv;
+    string diem_link = "/Diem/" + ViewBag.l+"/"+ViewBag.ma;
+    string tkb_link = "/TKBGV/" + ViewBag.magv;
+}
+@section Section3{
+    <a href="@ttgv_link" class="nav-link text-white custom-nav-link">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+        Thông tin GV
+    </a>
+}
+@section Section4{
+    <a href="@diem_link" class="nav-link text-white custom-nav-link">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+        Điểm Học Sinh
+    </a>
+}
+@section Section5{
+    <a href="@tkb_link" class="nav-link text-white custom-nav-link">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+        Lịch công tác
+    </a>
+}
+<h1>Bảng Điểm Lớp @ViewBag.L</h1>
+<script src="~/js/PostDiem.js"></script>
+<p>
+    <button onclick="postDiem('@ViewBag.l','@ViewBag.ma')" class="btn btn-primary">Save Changes</button>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Mã HS
+            </th>
+            <th>
+                Họ tên HS
+            </th>
+            <th>
+                Kì
+            </th>
+            <th>
+                Lớp
+            </th>
+            <th>
+                Điểm 15 phút
+            </th>
+            <th>
+                Điểm giữa kì
+            </th>
+            <th>
+                Điểm cuối kì
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaHs)
+                <input value="@item.MaHs" class="MaHs" style="display:none">
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoTenHs)
+                    <input value="@item.HoTenHs" class="HoTenHs" style="display:none">
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ki)
+                    <input value="@item.Ki" class="Ki" style="display:none">
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lop)
+                    <input value="@item.Lop" class="Lop" style="display:none">
+            </td>
+            <td>
+                    <input value="@item.Diem15" class="Diem15">
+            </td>
+            <td>
+                    <input value="@item.DiemGk" class="DiemGk">
+            </td>
+            <td>
+                    <input value="@item.DiemCk" class="DiemCk">
+            </td>
+            <td>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

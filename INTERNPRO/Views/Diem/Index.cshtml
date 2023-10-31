@@ -1,0 +1,52 @@
+﻿@{
+    Layout = "../Shared/_SidebarGiaoVien.cshtml";
+    string ttgv_link = "/TTGV/" + ViewBag.ma;
+    string diem_link = "/Diem/" + ViewBag.Lop+"/"+ViewBag.Mh;
+    string tkb_link = "/TKBGV/" + ViewBag.ma;
+}
+<script src="~/js/Diem.js"></script>
+@section Section3{
+    <a href="@ttgv_link" class="nav-link text-white custom-nav-link">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+        Thông tin GV
+    </a>
+}
+@section Section4{
+    <a href="@diem_link" class="nav-link text-white custom-nav-link">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+        Điểm Học Sinh
+    </a>
+}
+@section Section5{
+    <a href="@tkb_link" class="nav-link text-white custom-nav-link">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+        Lịch công tác
+    </a>
+}
+<div>
+
+    <p>
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h1 style="color:aqua">DANH SÁCH HỌC SINH THEO LỚP</h1>
+                    <h2><label for="lop">Chọn Lớp:</label></h2>
+                    <p>
+
+                        <form method="get" asp-controller="Diem" asp-action="GetDiem">
+                            <input list="lops" id="lop" name="lop">
+                            <datalist id="lops">
+                                @foreach (var item in ViewBag.Lop)
+                                {
+                                    <option value="@item"></option>
+                                }
+                            </datalist>
+                            <input type="text" value="document.getElementById('lop').value" style="display:none;">
+                            <input type="text" id="MaMh" name="MaMh" value="@ViewBag.Mh" style="display:none"/>
+                            <button class="btn btn-primary" type="submit">Tìm Kiếm</button>
+                        </form>
+                    </p>
+
+                </div>
+    </p>
+</div>

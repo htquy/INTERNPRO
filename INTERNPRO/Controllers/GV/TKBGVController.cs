@@ -18,6 +18,7 @@ namespace INTERNPRO.Controllers.GV
 
             string magv = HttpContext.GetRouteValue("MaGV") as string;
             int Ma = int.Parse(magv);
+            ViewBag.MaGv = Ma;
             if (magv != null)
             {
                 var tkb = _db.PhanCongCts.Where(s => s.MaGv == Ma).Select(x => new CTGV
