@@ -119,10 +119,10 @@ namespace INTERNPRO.Controllers.Admin
                 var WasGV = gvmh.Where(item => listca.Any(x => x.MaGv == item.MaGv)).ToList();
                 if (WasMH.Count == 0)
                 {
-                    var GVMH = WasGV.Where(item => !listca.Any(x => x.MaGv == item.MaGv)).ToList();
+                    var GVMH = gvmh.Where(item => !listca.Any(x => x.MaGv == item.MaGv)).ToList();
                     string json = await Task.Run(() =>
                     {
-                        return JsonConvert.SerializeObject(gvmh, Formatting.Indented, new JsonSerializerSettings
+                        return JsonConvert.SerializeObject(GVMH, Formatting.Indented, new JsonSerializerSettings
                         {
                             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                         });
@@ -131,16 +131,13 @@ namespace INTERNPRO.Controllers.Admin
                 }
                 else
                 {
-                    var mh = from mhdk in WasMH
-                             join Mh in mhs on mhdk.MaMh equals Mh.MaMh
-                             select new
-                             {
-                                 mhdk.MaMh,
-                                 Mh.TenMh,
-                                 mhdk.MaGv,
-                             };
-                    var gv = gvmh.Where(item => !listca.Any(x => x.MaGv == item.MaGv) && mh.Any(x => x.TenMh == item.ChuyenMon && x.MaGv == item.MaGv)).ToList();
-                    var Listgvmh = WasGV.Union(gv)
+
+                    var mh = from g in gvmh 
+                             join m in WasMH on g.MaGv equals m.MaGv
+                             where !listca.Any(x => x.MaGv == g.MaGv)
+                             select g;
+                    var gv = gvmh.Where(item => !listca.Any(x => x.MaGv == item.MaGv) && !WasMH.Any(x=>x.MaGv == item.MaGv)).ToList();
+                    var Listgvmh = mh.Union(gv)
                                     .Select(item => new
                                     {
                                         ChuyenMon = item.ChuyenMon,

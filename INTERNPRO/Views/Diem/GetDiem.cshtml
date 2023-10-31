@@ -6,8 +6,9 @@
 }
 @{
     Layout = "../Shared/_SidebarGiaoVien.cshtml";
+    var lop = ViewBag.l.Replace(" ", "");
     string ttgv_link = "/TTGV/" + ViewBag.magv;
-    string diem_link = "/Diem/" + ViewBag.l+"/"+ViewBag.ma;
+    string diem_link = "/Diem/" +ViewBag.magv;
     string tkb_link = "/TKBGV/" + ViewBag.magv;
 }
 @section Section3{

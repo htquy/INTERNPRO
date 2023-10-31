@@ -1,4 +1,7 @@
-﻿
+﻿function CloseModal() {
+    $('#detail').modal('hide');
+    $('#postModal').modal('hide');
+}
 $(document).ready(function () {
     // Insert();
 });

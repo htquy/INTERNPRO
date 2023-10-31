@@ -176,7 +176,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="CloseModal()">Close</button>
                         <button type="submit" class="btn btn-primary" onclick="Update(@count)">Save changes</button>
                     </div>
                 </div>
@@ -259,7 +259,7 @@
                         <span asp-validation-for="ChuNhiemLop" class="text-danger"></span>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="CloseModal()">Close</button>
                         <button type="submit" class="btn btn-primary" id="save" onclick="Insert(@count+1);">Save</button>
                     </div>
                 </div>

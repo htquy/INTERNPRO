@@ -1,4 +1,7 @@
-﻿
+﻿function CloseModal() {
+    $('#detail').modal('hide');
+    $('#postModal').modal('hide');
+}
 
 $('#showPost').on('click', function () {
    $('#postModal').modal('show');
