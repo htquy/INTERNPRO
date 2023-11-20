@@ -21,6 +21,8 @@ public partial class InternProjectContext : DbContext
 
     public virtual DbSet<HocSinh> HocSinhs { get; set; }
 
+    public virtual DbSet<Hphi> Hphis { get; set; }
+
     public virtual DbSet<LopHoc> LopHocs { get; set; }
 
     public virtual DbSet<Luong> Luongs { get; set; }
@@ -115,6 +117,9 @@ public partial class InternProjectContext : DbContext
             entity.Property(e => e.HoTenPh)
                 .HasMaxLength(50)
                 .HasColumnName("HoTenPH");
+            entity.Property(e => e.Khoa)
+                .HasMaxLength(10)
+                .IsFixedLength();
             entity.Property(e => e.NgayNh)
                 .HasColumnType("date")
                 .HasColumnName("NgayNH");
@@ -134,6 +139,32 @@ public partial class InternProjectContext : DbContext
             entity.Property(e => e.TenLop)
                 .HasMaxLength(10)
                 .IsFixedLength();
+
+            entity.HasOne(d => d.TenLopNavigation).WithMany(p => p.HocSinhs)
+                .HasForeignKey(d => d.TenLop)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_HocSinh_LopHoc");
+        });
+
+        modelBuilder.Entity<Hphi>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("HPhi");
+
+            entity.Property(e => e.Hpki).HasColumnName("HPKi");
+            entity.Property(e => e.Hpthang).HasColumnName("HPThang");
+            entity.Property(e => e.Ki)
+                .HasMaxLength(10)
+                .IsFixedLength();
+            entity.Property(e => e.MaHs).HasColumnName("MaHS");
+            entity.Property(e => e.NoHpki).HasColumnName("NoHPKi");
+            entity.Property(e => e.NoHpthang).HasColumnName("NoHPThang");
+
+            entity.HasOne(d => d.MaHsNavigation).WithMany()
+                .HasForeignKey(d => d.MaHs)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_HPhi_HocSinh");
         });
 
         modelBuilder.Entity<LopHoc>(entity =>
@@ -145,9 +176,7 @@ public partial class InternProjectContext : DbContext
             entity.Property(e => e.TenLop)
                 .HasMaxLength(10)
                 .IsFixedLength();
-            entity.Property(e => e.Gvcn)
-                .HasMaxLength(50)
-                .HasColumnName("GVCN");
+            entity.Property(e => e.Gvcn).HasColumnName("GVCN");
         });
 
         modelBuilder.Entity<Luong>(entity =>

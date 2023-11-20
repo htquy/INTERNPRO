@@ -47,8 +47,20 @@ namespace INTERNPRO.Controllers.Admin
             string Ca = HttpContext.GetRouteValue("Ca") as string;
             int ca = Int32.Parse(Ca);
             var listca = _db.PhanCongCts.Where(x => x.Ca == ca / 10 && x.Ngay == ca % 10).ToList();
-            var WasMH = _db.PhanCongCts.Where(x => x.TenLop == TL).ToList();
             var mhs = _db.MonHocs.ToList();
+            var pcct=_db.PhanCongCts.Where(x=>x.TenLop==TL).ToList();
+            var WasMH = (from pc in pcct
+                         join mh in mhs on pc.MaMh equals mh.MaMh
+                        select new
+                        {
+                            MaMh= pc.MaMh,
+                            MaGv= pc.MaGv,
+                            Monhoc=mh.TenMh,
+                            TenLop=pc.TenLop,
+                            Ca=pc.Ca,
+                            Ngay= pc.Ngay,
+
+                        }).ToList();
             var gvmh = _db.GiaoViens.ToList();
             if (_db.PhanCongCts.Where(c => c.MaMh == 1 && c.TenLop == TL).Count() >= 4) { gvmh.RemoveAll(x => x.ChuyenMon == "Toán"); }
             if (_db.PhanCongCts.Where(c => c.MaMh == 2 && c.TenLop == TL).Count() >= 4) { gvmh.RemoveAll(x => x.ChuyenMon == "Ngữ Văn"); }
@@ -136,7 +148,7 @@ namespace INTERNPRO.Controllers.Admin
                              join m in WasMH on g.MaGv equals m.MaGv
                              where !listca.Any(x => x.MaGv == g.MaGv)
                              select g;
-                    var gv = gvmh.Where(item => !listca.Any(x => x.MaGv == item.MaGv) && !WasMH.Any(x=>x.MaGv == item.MaGv)).ToList();
+                    var gv = gvmh.Where(item => !listca.Any(x => x.MaGv == item.MaGv) && !WasMH.Any(x=>x.MaGv != item.MaGv&&x.Monhoc==item.ChuyenMon)).ToList();
                     var Listgvmh = mh.Union(gv)
                                     .Select(item => new
                                     {
