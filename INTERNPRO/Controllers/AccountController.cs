@@ -1,5 +1,10 @@
 ﻿using INTERNPRO.Datas;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace INTERNPRO.Controllers
 {
@@ -7,10 +12,31 @@ namespace INTERNPRO.Controllers
     {
         private readonly InternProjectContext _db;
         private readonly IWebHostEnvironment _en;
-        public AccountController(InternProjectContext db, IWebHostEnvironment en)
+        private readonly IConfiguration _config;
+        public AccountController(InternProjectContext db, IWebHostEnvironment en, IConfiguration config)
         {
             _db = db;
             _en = en;
+            _config = config;
+        }
+        private String GenerateJWT( int ms)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Secret"]));
+            var signatureKey = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier,ms.ToString()),
+                (ms <300000) ?((ms==1111)? new Claim(ClaimTypes.Role, "Admin"):new Claim(ClaimTypes.Role,"GV")) : new Claim(ClaimTypes.Role, "HS"),
+            };
+            var token = new JwtSecurityToken(
+                    issuer: _config["JWT:ValidIssuer"],
+                    audience: _config["JWT:ValidAudience"],
+                    expires: DateTime.Now.AddMinutes(2),
+                    claims: claims,
+                    signingCredentials: signatureKey
+                );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
         public IActionResult Index()
         {
@@ -28,7 +54,7 @@ namespace INTERNPRO.Controllers
                 {
                     var MaHS = int.Parse(code);
                     var redirectUrl = "/TTHS/" + code;
-                    return Json(new { redirectUrl });
+                    return Json(new { url=redirectUrl ,token=GenerateJWT(codeVal)});
                 }
                 else
                 {
@@ -37,13 +63,13 @@ namespace INTERNPRO.Controllers
                     if (gv != null && gv.TenGv == "Admin")
                     {
                         var redirectUrl = "/Account/Admin";
-                        return Json(new { redirectUrl });
+                        return Json(new { url = redirectUrl, token = GenerateJWT(codeVal) });
                     }
                     else if (gv != null)
                     {
                         var MaGv = int.Parse(code);
                         var redirectUrl = "/TTGV/"+MaGv;
-                        return Json(new { redirectUrl });
+                        return Json(new { url = redirectUrl, token = GenerateJWT(codeVal) });
                     }
                     else return Ok();
                 }
@@ -56,7 +82,7 @@ namespace INTERNPRO.Controllers
         {
             return View(MaHS);
         }
-       
+        //[Authorize(Policy = "Admin")]
         [HttpGet]
         public IActionResult Admin()
         {

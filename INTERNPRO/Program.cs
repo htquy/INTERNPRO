@@ -1,9 +1,33 @@
 using INTERNPRO.Datas;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("User", policy => policy.RequireRole("GV"));
+    options.AddPolicy("User", policy => policy.RequireRole("HS"));
+});
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options => {
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"])),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<InternProjectContext>(option => option.UseSqlServer(builder.Configuration.
     GetConnectionString("MyDb")));

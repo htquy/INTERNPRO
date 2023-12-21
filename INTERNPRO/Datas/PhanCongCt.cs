@@ -17,6 +17,8 @@ public partial class PhanCongCt
 
     public int Ngay { get; set; }
 
+    public DateTime? Ntn { get; set; }
+
     public virtual GiaoVien MaGvNavigation { get; set; } = null!;
 
     public virtual MonHoc MaMhNavigation { get; set; } = null!;

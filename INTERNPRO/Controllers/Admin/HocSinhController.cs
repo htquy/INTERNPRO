@@ -1,5 +1,6 @@
 ﻿using INTERNPRO.Datas;
 using INTERNPRO.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Hosting;
@@ -17,13 +18,14 @@ namespace INTERNPRO.Controllers.Admin
             _db = db;
             _en = en;
         }
-
+        [Authorize(Policy = "Admin")]
         public IActionResult Index()
         {
             var lop = _db.LopHocs.Select(x => x.TenLop).ToList();
             ViewBag.Lop = lop;
             return View(ViewBag.Lop);
         }
+        [Authorize(Policy = "Admin")]
         [HttpGet("GetHS")]
         [Route("/HocSinh/GetHS/{Lop}")]
         public IActionResult GetHS(string Lop)

@@ -33,7 +33,7 @@ public partial class InternProjectContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-EEG1PQP\\SQLEXPRESS;Initial Catalog=InternProject;Integrated Security=True;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-EEG1PQP\\SQLEXPRESS;Initial Catalog=InternProject;Integrated Security=True;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;MultiSubnetFailover=False");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -214,6 +214,9 @@ public partial class InternProjectContext : DbContext
                 .HasColumnName("MaCT");
             entity.Property(e => e.MaGv).HasColumnName("MaGV");
             entity.Property(e => e.MaMh).HasColumnName("MaMH");
+            entity.Property(e => e.Ntn)
+                .HasColumnType("date")
+                .HasColumnName("NTN");
             entity.Property(e => e.TenLop)
                 .HasMaxLength(10)
                 .IsFixedLength();

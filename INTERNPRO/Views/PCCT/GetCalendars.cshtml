@@ -5,24 +5,52 @@
 @{
     var hour = 7;
     var minute = 0;
+    
+    // Lấy ngày hiện tại
+    DateTime currentDate = DateTime.Now;
+
+    // Tìm ngày đầu tiên của tuần (Chủ Nhật)
+    DateTime firstDayOfWeek = currentDate.Date.AddDays(-(int)currentDate.DayOfWeek);
+
+    // Tạo danh sách 7 ngày kể từ ngày hiện tại
+    List<DateTime> sevenDays = new List<DateTime>();
+    for (int i = 0; i < 7; i++)
+    {
+        sevenDays.Add(firstDayOfWeek.AddDays(i));
+    }
 }
 <main style="margin-top:20px">
-    <h2 style="display: flex;flex-direction: column;justify-content: center;align-items: center;">Lịch Công Tác Lớp @ViewBag.TL</h2>
-    <div class="timetable-img text-center">
+    <h2 style="display: flex;justify-content: center;align-items: center;">Lịch Công Tác Lớp @ViewBag.TL</h2>
+    <div class="form-group" style="display: flex;justify-content: center;align-items: center;">
+        <button> &lt; Trước </button>&ensp;
+        <input type="date" value="@sevenDays[0].ToString("yyyy-MM-dd")" />&nbsp;
+        <select style="width:50px">
+            <option value="1">1 tuần</option>
+            <option value="2">2 tuần</option>
+            <option value="3">3 tuần</option>
+            <option value="4">4 tuần</option>
+        </select>&ensp;
+        <button> Sau &gt;</button>
     </div>
-    <div class="table-responsive" style="margin-left:100px;margin-top:100px">
+    <div class="table-responsive" style="margin-left:100px;margin-top:50px">
         <table class="table table-bordered text-center" style="width:1030px">
             <thead>
                 <tr class="bg-light-gray">
                     <th class="text-uppercase" style="width:100px">
                         Time
                     </th>
-                    <th class="text-uppercase" style="width:150px;background-color:aqua">Monday</th>
-                    <th class="text-uppercase" style="width:150px;background-color:aqua">Tuesday</th>
-                    <th class="text-uppercase" style="width:150px;background-color:aqua">Wednesday</th>
-                    <th class="text-uppercase" style="width:150px;background-color:aqua">Thursday</th>
-                    <th class="text-uppercase" style="width:150px;background-color:aqua">Friday</th>
-                    <th class="text-uppercase" style="width:150px;background-color:aqua">Saturday</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Monday<br />
+                @sevenDays[0].ToString("dd/MM/yyyy")</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Tuesday<br />
+                @sevenDays[1].ToString("dd/MM/yyyy")</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Wednesday<br />
+                @sevenDays[2].ToString("dd/MM/yyyy")</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Thursday<br />
+                @sevenDays[3].ToString("dd/MM/yyyy")</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Friday<br />
+                @sevenDays[4].ToString("dd/MM/yyyy")</th>
+                    <th class="text-uppercase" style="width:150px;background-color:aqua">Saturday<br />
+                @sevenDays[5].ToString("dd/MM/yyyy")</th>
                 </tr>
             </thead>
             <tbody>
