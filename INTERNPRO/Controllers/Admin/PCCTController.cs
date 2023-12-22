@@ -6,6 +6,12 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.SqlServer.Server;
+using System.Globalization;
+using System.Linq;
+using Microsoft.AspNetCore.Components.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace INTERNPRO.Controllers.Admin
 {
@@ -25,21 +31,72 @@ namespace INTERNPRO.Controllers.Admin
         }
         [HttpGet]
         [Route("/PCCT/GetCalendars/{Tenlop}")]
-        public IActionResult GetCalendars()
+        public IActionResult GetCalendars(string ngay)
         {
-            string tenLop = HttpContext.GetRouteValue("Tenlop") as string;
-            List<PhanCongCt> listpc = new List<PhanCongCt>();
-            listpc = _db.PhanCongCts.Where(x => x.TenLop == tenLop).ToList();
-            var listGVMH = (from item in _db.GiaoViens
-                            select new
-                            {
-                                GV = item.MaGv,
-                                TenGV = item.TenGv,
-                                CM = item.ChuyenMon
-                            }).ToList();
-            ViewBag.GVMH = listGVMH;
-            ViewBag.TL = tenLop;
-            return View(listpc);
+            ViewBag.Ng = "";
+            try
+            {
+                DateTime date;
+                string format = "dd/MM/yyyy";
+                List<string> sevenDays = new List<string>();
+                if (DateTime.TryParseExact(ngay, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime currentDate))
+                {
+                    DateTime firstDayOfWeek = currentDate.Date.AddDays(-(int)currentDate.DayOfWeek);
+                    ViewBag.Ng = ngay;
+                    // Tạo danh sách 7 ngày kể từ ngày hiện tại
+                    //List<string> sevenDays = new List<string>();
+                    for (int i = 0; i < 7; i++)
+                    {
+                        DateTime currentDay = firstDayOfWeek.AddDays(i);
+                        string formattedDate = currentDay.ToString("ddMMyyyy").Replace("/", "");
+                        sevenDays.Add(formattedDate);
+                    }
+                }
+                else if (DateTime.TryParseExact(ngay, "yyyy/MM/dd", null, System.Globalization.DateTimeStyles.None, out date))
+                {
+                    DateTime dateObject = DateTime.ParseExact(ngay, "yyyy/MM/dd", null);
+
+                    string stringDate = dateObject.ToString("dd/MM/yyyy");
+                    if (DateTime.TryParseExact(stringDate, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime Date2))
+                    {
+                        DateTime firstDayOfWeek = Date2.Date.AddDays(-(int)Date2.DayOfWeek);
+                        ViewBag.Ng = date.ToString("dd/MM/yyyy");
+                        // Tạo danh sách 7 ngày kể từ ngày hiện tại
+                        //List<string> sevenDays = new List<string>();
+                        for (int i = 0; i < 7; i++)
+                        {
+                            DateTime currentDay = firstDayOfWeek.AddDays(i);
+                            string formattedDate = currentDay.ToString("ddMMyyyy").Replace("/", "");
+                            sevenDays.Add(formattedDate);
+                        }
+                    }
+                }
+                else
+                {
+                    return BadRequest();
+                }
+
+                //DateTime currentDate = DateTime.Now;
+                string tenLop = HttpContext.GetRouteValue("Tenlop") as string;
+                List<PhanCongCt> listpc = new List<PhanCongCt>();
+                listpc = _db.PhanCongCts.Where(x => x.TenLop == tenLop && sevenDays.Contains(x.Ngay.ToString())).ToList();
+                var listGVMH = (from item in _db.GiaoViens
+                                select new
+                                {
+                                    GV = item.MaGv,
+                                    TenGV = item.TenGv,
+                                    CM = item.ChuyenMon
+                                }).ToList();
+                ViewBag.GVMH = listGVMH;
+                ViewBag.TL = tenLop;
+                return View(listpc);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+           
         }
         [HttpGet]
         [Route("/PCCT/GetCalendars/{TenLop}/{Ca}")]
@@ -48,7 +105,7 @@ namespace INTERNPRO.Controllers.Admin
             string TL = HttpContext.GetRouteValue("TenLop") as string;
             string Ca = HttpContext.GetRouteValue("Ca") as string;
             int ca = Int32.Parse(Ca);
-            var listca = _db.PhanCongCts.Where(x => x.Ca == ca / 10 && x.Ngay == ca % 10).ToList();
+            var listca = _db.PhanCongCts.Where(x => x.Ca == ca / 100000000 && x.Ngay == ca % 100000000).ToList();
             var mhs = _db.MonHocs.ToList();
             var pcct=_db.PhanCongCts.Where(x=>x.TenLop==TL).ToList();
             var WasMH = (from pc in pcct
@@ -178,15 +235,20 @@ namespace INTERNPRO.Controllers.Admin
             {
                 string[] magv = str.Split('-');
                 var MH = _db.MonHocs.SingleOrDefault(x => x.TenMh == magv[1]);
-                var pcct = new PhanCongCt
+                int idpc=0;
+                if (_db.PhanCongCts.Count() != 0)
                 {
-                    MaCt = _db.PhanCongCts.Max(x => x.MaCt) + 1,
-                    MaGv = Int32.Parse(magv[0]),
-                    MaMh = MH.MaMh,
-                    TenLop = lop,
-                    Ca = int.Parse(ca) / 10,
-                    Ngay = int.Parse(ca) % 10,
-                };
+                    idpc = _db.PhanCongCts.Max(x => x.MaCt);
+                }
+                    var pcct = new PhanCongCt
+                    {
+                        MaCt = idpc + 1,
+                        MaGv = Int32.Parse(magv[0]),
+                        MaMh = MH.MaMh,
+                        TenLop = lop,
+                        Ca = int.Parse(ca) / 100000000,
+                        Ngay = int.Parse(ca) % 100000000,
+                    };
                 _db.PhanCongCts.Add(pcct);
                 _db.SaveChanges();
                 return Json("post thành công!");

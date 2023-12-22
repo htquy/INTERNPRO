@@ -1,6 +1,12 @@
 ﻿@{
     Layout = "../Shared/_SidebarAdmin.cshtml";
 }
+@{
+    DateTime currentDate = DateTime.Now;
+    string date = currentDate.ToString("dd/MM/yyyy");
+    Console.WriteLine(date);
+
+}
 <script src="~/js/PCCT.js"></script>
 <div>
     <p>
@@ -17,7 +23,7 @@
                                 <option value="@item"></option>
                             }
                         </datalist>
-                        <button id="showPCCT" class="btn btn-primary" onclick="ShowPCCT(document.getElementById('lop').value)">Tìm kiếm</button>
+                        <button id="showPCCT" class="btn btn-primary" onclick="ShowPCCT(document.getElementById('lop').value,'@date')">Tìm kiếm</button>
                     </p>
 
                 </div>

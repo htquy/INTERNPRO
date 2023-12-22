@@ -355,7 +355,7 @@ $.validator.addMethod( "creditcard", function( value, element ) {
 		bEven = !bEven;
 	}
 
-	return ( nCheck % 10 ) === 0;
+	return ( nCheck % 100000000 ) === 0;
 }, "Please enter a valid credit card number." );
 
 /* NOTICE: Modified version of Castle.Components.Validator.CreditCardValidator

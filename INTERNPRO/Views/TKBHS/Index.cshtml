@@ -26,6 +26,14 @@
 @{
     var hour = 7;
     var minute = 0;
+    List<DateTime> sevenDays = new List<DateTime>();
+    DateTime currentDate = DateTime.Now;
+    DateTime firstDayOfWeek = currentDate.Date.AddDays(-(int)currentDate.DayOfWeek);
+
+        for (int i = 0; i < 7; i++)
+        {
+            sevenDays.Add(firstDayOfWeek.AddDays(i));
+        }
 }
 <div class="container">
     <h2 style="display: flex;flex-direction: column;justify-content: center;align-items: center;">Thời khóa biểu lớp @ViewBag.Lop</h2>
@@ -67,7 +75,7 @@
                                 @{
                                     foreach (var item in Model)
                                     {
-                                        if (item.Ca == i && item.Ngay == j)
+                                        if (item.Ca == i && item.Ngay == int.Parse(sevenDays[j-2].ToString("dd/MM/yyyy").Replace("/","")))
                                         {
                                             <div>@item.TenGv</div>
                                             <br />

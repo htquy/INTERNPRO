@@ -1,29 +1,30 @@
-﻿@model IEnumerable<INTERNPRO.Datas.PhanCongCt>
+﻿@using System.Globalization;
+@model IEnumerable<INTERNPRO.Datas.PhanCongCt>
 @{
     Layout = "../Shared/_SidebarAdmin.cshtml";
 }
 @{
     var hour = 7;
     var minute = 0;
-    
-    // Lấy ngày hiện tại
-    DateTime currentDate = DateTime.Now;
-
-    // Tìm ngày đầu tiên của tuần (Chủ Nhật)
-    DateTime firstDayOfWeek = currentDate.Date.AddDays(-(int)currentDate.DayOfWeek);
-
-    // Tạo danh sách 7 ngày kể từ ngày hiện tại
+    string format = "dd/MM/yyyy";
     List<DateTime> sevenDays = new List<DateTime>();
-    for (int i = 0; i < 7; i++)
+    // Tìm ngày đầu tiên của tuần (Chủ Nhật)
+    if (DateTime.TryParseExact(ViewBag.Ng, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime currentDate))
     {
-        sevenDays.Add(firstDayOfWeek.AddDays(i));
+        DateTime firstDayOfWeek = currentDate.Date.AddDays(-(int)currentDate.DayOfWeek);
+
+        for (int i = 0; i < 7; i++)
+        {
+            sevenDays.Add(firstDayOfWeek.AddDays(i));
+        }
     }
 }
 <main style="margin-top:20px">
+    <input id="TenL"  value="@ViewBag.TL" style="display:none;"/>
     <h2 style="display: flex;justify-content: center;align-items: center;">Lịch Công Tác Lớp @ViewBag.TL</h2>
     <div class="form-group" style="display: flex;justify-content: center;align-items: center;">
         <button> &lt; Trước </button>&ensp;
-        <input type="date" value="@sevenDays[0].ToString("yyyy-MM-dd")" />&nbsp;
+        <input id="datettt" type="date"  />
         <select style="width:50px">
             <option value="1">1 tuần</option>
             <option value="2">2 tuần</option>
@@ -71,12 +72,13 @@
                         @for (int j = 2; j < 8; j++)
                         {
                             <td>
-                                @{  string t;
+                                @{
+                                    string t = sevenDays[j - 2].ToString("dd/MM/yyyy").Replace("/","");
                                     var ch = 0;
-                                    var cangay = i.ToString() + j.ToString();
+                                    var cangay = i.ToString() + t.ToString();
                                     foreach (var item in Model)
                                     {
-                                        if (item.Ca == i && item.Ngay == j)
+                                        if (item.Ca == i && item.Ngay == int.Parse(sevenDays[j - 2].ToString("dd/MM/yyyy").Replace("/", "")))
                                         {
                                             ch++;
                                             <div>@item.MaGv</div>

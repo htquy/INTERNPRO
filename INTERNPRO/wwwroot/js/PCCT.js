@@ -1,8 +1,22 @@
 ﻿function CloseModal() {
     $('#listGVMH').modal('hide');
 }
-function ShowPCCT(TenL) {
-    window.location = "https://localhost:7275/PCCT/GetCalendars/" + TenL;
+
+$(document).ready(function () {
+    $("#datettt").on("change", function () {
+        var tenL = $("#TenL").val().trim();
+        var ngay = $(this).val().split("-").join("/").toString();
+       /* ngay = "'" + ngay + "'";*/
+        ShowPCCT(tenL, ngay);
+    });
+});
+
+
+function ShowPCCT(TenL, ngay) {
+   // var jsDate = @Json.Encode(ngay);
+    
+                window.location.href = "/PCCT/GetCalendars/" + TenL + "?ngay=" +ngay;
+            
 }
 function PhanCong(lop, ca) {
     $.ajax({
