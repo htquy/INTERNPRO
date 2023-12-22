@@ -129,6 +129,3 @@ function Update(count) {
         });
 }
 
-    
-}
-
