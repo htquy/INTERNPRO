@@ -128,18 +128,7 @@ function Update(count) {
         }
         });
 }
-function Logout() {
-    $.ajax({
-        url: "/HocSinh/Log",
-        type: 'get',
-        success: function (response) {
-            window.location.href = response.redirectUrl; 
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            // Xử lý lỗi
-            console.log("Lỗi: " + errorThrown);
-        }
-    });
+
     
 }
 

@@ -1,4 +1,5 @@
 using INTERNPRO.Datas;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -10,10 +11,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
-    options.AddPolicy("User", policy => policy.RequireRole("GV"));
-    options.AddPolicy("User", policy => policy.RequireRole("HS"));
+    options.AddPolicy("GV", policy => policy.RequireRole("GV"));
+    options.AddPolicy("HS", policy => policy.RequireRole("HS"));
 });
-builder.Services.AddAuthentication(options =>
+
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = "YourAppCookieName";
+        options.LoginPath = "/Account/GetAccount"; // Customize the login path
+    });
+
+/*builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -27,7 +37,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuer = false,
         ValidateAudience = false
     };
-});
+});*/
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<InternProjectContext>(option => option.UseSqlServer(builder.Configuration.
     GetConnectionString("MyDb")));

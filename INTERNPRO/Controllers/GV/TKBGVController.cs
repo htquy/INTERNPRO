@@ -1,9 +1,11 @@
 ﻿using INTERNPRO.Datas;
 using INTERNPRO.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace INTERNPRO.Controllers.GV
 {
+    [Authorize(Policy = "GV")]
     public class TKBGVController : Controller
     {
         private readonly InternProjectContext _db;

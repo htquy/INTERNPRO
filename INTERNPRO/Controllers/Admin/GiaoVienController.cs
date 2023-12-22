@@ -1,5 +1,6 @@
 ﻿using INTERNPRO.Datas;
 using INTERNPRO.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Hosting;
@@ -10,6 +11,7 @@ namespace INTERNPRO.Controllers.Admin
 {
     namespace INTERNPRO.Controllers
     {
+        [Authorize(Policy = "Admin")]
         public class GiaoVienController : Controller
         {
             private readonly InternProjectContext _db;
@@ -19,7 +21,6 @@ namespace INTERNPRO.Controllers.Admin
                 _db = db;
                 _en = en;
             }
-
             public IActionResult Index()
             {
                 return View();

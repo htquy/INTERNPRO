@@ -1,10 +1,13 @@
 ﻿using INTERNPRO.Datas;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 namespace INTERNPRO.Controllers
 {
@@ -43,18 +46,47 @@ namespace INTERNPRO.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult GetAccount(string code, string password)
+        public IActionResult Logout()
+        {
+
+            // Xóa cookie
+            Response.Cookies.Delete("YourAppCookieName");
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetAccount(string code, string password)
         {
             int codeVal;
             if (int.TryParse(code, out codeVal))
             {
                 var hs = _db.HocSinhs.SingleOrDefault(x => x.MaHs == codeVal && x.PassWord == password);
 
+                var claims = new[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier,codeVal.ToString()),
+                    (codeVal <300000) ?((codeVal==1111)? new Claim(ClaimTypes.Role, "Admin"):new Claim(ClaimTypes.Role,"GV")) : new Claim(ClaimTypes.Role, "HS"),
+                };
+
+                // Create a ClaimsIdentity and specify the authentication scheme
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                // Configure authentication properties
+                var properties = new AuthenticationProperties
+                {
+                    AllowRefresh = true,
+                };
+
+                // Sign in the user using the specified authentication scheme
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity), properties);
+
                 if (hs != null)
                 {
                     var MaHS = int.Parse(code);
                     var redirectUrl = "/TTHS/" + code;
-                    return Json(new { url=redirectUrl ,token=GenerateJWT(codeVal)});
+                    return Json(new { url = redirectUrl, token = GenerateJWT(codeVal) });
                 }
                 else
                 {
@@ -68,7 +100,7 @@ namespace INTERNPRO.Controllers
                     else if (gv != null)
                     {
                         var MaGv = int.Parse(code);
-                        var redirectUrl = "/TTGV/"+MaGv;
+                        var redirectUrl = "/TTGV/" + MaGv;
                         return Json(new { url = redirectUrl, token = GenerateJWT(codeVal) });
                     }
                     else return Ok();
@@ -76,13 +108,14 @@ namespace INTERNPRO.Controllers
             }
             else return Ok();
         }
+
         [HttpGet]
         [Route("/Account/GetHS/{MaHS}")]
         public IActionResult GetHS(int MaHS)
         {
             return View(MaHS);
         }
-        //[Authorize(Policy = "Admin")]
+        [Authorize(Policy = "Admin")]
         [HttpGet]
         public IActionResult Admin()
         {

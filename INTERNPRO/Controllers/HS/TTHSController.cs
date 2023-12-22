@@ -1,8 +1,10 @@
 ﻿using INTERNPRO.Datas;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace INTERNPRO.Controllers.HS
 {
+    [Authorize(Policy = "HS")]
     public class TTHSController : Controller
     {
         private readonly InternProjectContext _db;
@@ -10,6 +12,7 @@ namespace INTERNPRO.Controllers.HS
         {
             _db = db;
         }
+        [Authorize(Policy = "HS")]
         [HttpGet]
         [Route("/TTHS/{MaHS}")]
         public IActionResult Index()

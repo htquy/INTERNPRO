@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace INTERNPRO.Controllers.Admin
 {
+    [Authorize(Policy = "Admin")]
     public class HocSinhController : Controller
     {
         private readonly InternProjectContext _db;
@@ -18,14 +19,12 @@ namespace INTERNPRO.Controllers.Admin
             _db = db;
             _en = en;
         }
-        [Authorize(Policy = "Admin")]
         public IActionResult Index()
         {
             var lop = _db.LopHocs.Select(x => x.TenLop).ToList();
             ViewBag.Lop = lop;
             return View(ViewBag.Lop);
         }
-        [Authorize(Policy = "Admin")]
         [HttpGet("GetHS")]
         [Route("/HocSinh/GetHS/{Lop}")]
         public IActionResult GetHS(string Lop)

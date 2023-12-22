@@ -20,9 +20,11 @@
                     })
                 });
 
-                fetch(redirectRequest).then(function (res) {
-                  /*  window.location.replace(response.url);*/
-                }); }
+                window.location.replace(response.url);
+                /* fetch(redirectRequest).then(function (res) {
+                     window.location.replace(response.url);
+                 });*/
+            }
         },
         error: function (xhr, textStatus, errorThrown) {
             // Xử lý lỗi

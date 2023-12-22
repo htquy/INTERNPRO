@@ -1,9 +1,11 @@
 ﻿using INTERNPRO.Datas;
 using INTERNPRO.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace INTERNPRO.Controllers.HS
 {
+    [Authorize(Policy = "HS")]
     public class DiemHSController : Controller
     {
 

@@ -5,9 +5,11 @@ using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace INTERNPRO.Controllers.Admin
 {
+    [Authorize(Policy = "Admin")]
     public class PCCTController : Controller
     {
         public readonly InternProjectContext _db;
